@@ -1,24 +1,23 @@
-import { auth, clerkClient, EmailAddress } from '@clerk/tanstack-react-start/server'
 import { createFileRoute, redirect } from '@tanstack/react-router'
+import { createUser } from '~/server/createUser'
+
+
 
 export const Route = createFileRoute('/init')({
   loader: async () => {
- 
-    const { isAuthenticated, userId,  } = await auth()
+    
+    const result = await createUser()
 
-    if (!isAuthenticated || !userId) {
+    if (result.success) {
       throw redirect({
-        to: '/',
-      })  
-    }
-    console.log(userId);
-
-    const user = await clerkClient().users.getUser(userId)
-
-    const {firstName, lastName, fullName, primaryEmailAddress} = user;
-
-    throw redirect({
       to: '/',
     })
+    } else{
+      throw redirect({
+        to: '/error',
+      })
+    }
+
+    
   },
 })
