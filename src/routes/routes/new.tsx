@@ -1,9 +1,125 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { useForm } from '@tanstack/react-form'
 
 export const Route = createFileRoute('/routes/new')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  return <div>Hello "/routes/new"!</div>
+  const form = useForm({
+    defaultValues: {
+      routeName: '',
+      description: '',
+    },
+    onSubmit: async ({ value }) => {
+      const payload = {
+        routeName: value.routeName.trim(),
+        description: value.description.trim(),
+      }
+
+      // For now, just log the JSON representation
+      console.log('Route payload:', JSON.stringify(payload, null, 2))
+    },
+  })
+
+  return (
+    <div className="min-h-screen bg-gray-50 py-12 px-4">
+      <div className="mx-auto max-w-3xl">
+        <div className="mb-8">
+          <p className="text-sm font-medium text-rose-700">New route</p>
+          <h1 className="mt-2 text-3xl font-bold text-gray-900">Create a route</h1>
+          <p className="mt-2 text-sm text-gray-600">
+            Fill in the details for a new route. Submitting will log the JSON payload to the console.
+          </p>
+        </div>
+
+        <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+          <form
+            className="space-y-6"
+            onSubmit={(event) => {
+              event.preventDefault()
+              void form.handleSubmit()
+            }}
+          >
+            <form.Field
+              name="routeName"
+              validators={{
+                onChange: ({ value }) => (!value.trim() ? 'Route name is required' : undefined),
+              }}
+            >
+              {(field) => (
+                <div className="space-y-2">
+                  <label htmlFor="routeName" className="text-sm font-medium text-gray-800">
+                    Route name
+                  </label>
+                  <input
+                    id="routeName"
+                    name="routeName"
+                    type="text"
+                    value={field.state.value}
+                    onChange={(event) => field.handleChange(event.target.value)}
+                    onBlur={field.handleBlur}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-rose-500 focus:outline-none focus:ring-2 focus:ring-rose-200"
+                    placeholder="Northside Wednesday route"
+                  />
+                  {/* {field.state.meta.touchedErrors ? (
+                    <p className="text-sm text-rose-700">{field.state.meta.touchedErrors}</p>
+                  ) : null} */}
+                </div>
+              )}
+            </form.Field>
+
+            <form.Field
+              name="description"
+              validators={{
+                onChange: ({ value }) => (!value.trim() ? 'Description is required' : undefined),
+              }}
+            >
+              {(field) => (
+                <div className="space-y-2">
+                  <label htmlFor="description" className="text-sm font-medium text-gray-800">
+                    Description
+                  </label>
+                  <textarea
+                    id="description"
+                    name="description"
+                    value={field.state.value}
+                    onChange={(event) => field.handleChange(event.target.value)}
+                    onBlur={field.handleBlur}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-rose-500 focus:outline-none focus:ring-2 focus:ring-rose-200"
+                    placeholder="List the stops, cadence, or goal for this route"
+                    rows={4}
+                  />
+                  {/* {field.state.meta.touchedErrors ? (
+                    <p className="text-sm text-rose-700">{field.state.meta.touchedErrors}</p>
+                  ) : null} */}
+                </div>
+              )}
+            </form.Field>
+
+            <form.Subscribe selector={(state) => state.isSubmitting || state.canSubmit === false}>
+              {(isBusy) => (
+                <div className="flex items-center justify-end gap-3">
+                  <button
+                    type="button"
+                    className="text-sm font-medium text-gray-600 hover:text-gray-800"
+                    onClick={() => form.reset()}
+                  >
+                    Reset
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isBusy}
+                    className="inline-flex items-center rounded-md bg-rose-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    {isBusy ? 'Creating...' : 'Create route'}
+                  </button>
+                </div>
+              )}
+            </form.Subscribe>
+          </form>
+        </div>
+      </div>
+    </div>
+  )
 }
