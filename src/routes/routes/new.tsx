@@ -1,11 +1,16 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
+import { create } from 'domain'
+import { createRoute } from '~/server/routes'
+import { useServerFn } from 'node_modules/@tanstack/react-start/dist/esm/useServerFn'
 
 export const Route = createFileRoute('/routes/new')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
+
+  const create = useServerFn(createRoute)
   const form = useForm({
     defaultValues: {
       routeName: '',
@@ -19,6 +24,8 @@ function RouteComponent() {
 
       // For now, just log the JSON representation
       console.log('Route payload:', JSON.stringify(payload, null, 2))
+
+      await create({data: payload});
     },
   })
 
