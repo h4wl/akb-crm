@@ -10,7 +10,7 @@ export const Route = createFileRoute('/init')({
 
     if (result.success) {
       throw redirect({
-      to: '/',
+      to: '/dashboard',
     })
     } else{
       throw redirect({
