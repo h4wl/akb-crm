@@ -61,7 +61,7 @@ export const createUser = createServerFn({ method: 'POST' })
       const existingUsers = await db
         .select()
         .from(usersTable)
-        .where(eq(usersTable.userId, userId))
+        .where(eq(usersTable.clerkId, userId))
         .limit(1)
 
       const existingUser = existingUsers[0]
@@ -77,7 +77,7 @@ export const createUser = createServerFn({ method: 'POST' })
             lastName,
             updatedAt: new Date(),
           })
-          .where(eq(usersTable.userId, userId))
+          .where(eq(usersTable.clerkId, userId))
 
         return { success: true, message: 'User updated' }
       }
@@ -86,7 +86,7 @@ export const createUser = createServerFn({ method: 'POST' })
       await db
         .insert(usersTable)
         .values({
-          userId,
+          clerkId: userId,
           email,
           name: fullName,
           firstName,

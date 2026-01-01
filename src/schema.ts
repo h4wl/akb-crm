@@ -1,8 +1,10 @@
-import { integer, pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
+import { integer, pgTable, serial, text, timestamp, varchar } from 'drizzle-orm/pg-core';
+import { createSlug } from './uid';
 
 export const usersTable = pgTable('users_table', {
-    id: serial('id').primaryKey(),
-    userId: text('user_id').notNull().unique(),
+    id: varchar('id', { length: 5 }).primaryKey()
+        .$defaultFn(() => createSlug()),
+    clerkId: text('clerk_id').notNull().unique(),
     email: text('email').notNull().unique(),
     name: text('name').notNull(),
     firstName: text('first_name').notNull(),
@@ -16,10 +18,11 @@ export const usersTable = pgTable('users_table', {
 });
 
 export const routesTable = pgTable('routes_table', {
-    id: serial('id').primaryKey(),
+    id: varchar('id', { length: 5 }).primaryKey()
+        .$defaultFn(() => createSlug()),
     routeName: text('route_name').notNull(),
     description: text('description').notNull(),
-    userId: integer('user_id')
+    userId: varchar('user_id', { length: 5 })
         .notNull()
         .references(() => usersTable.id, { onDelete: 'cascade' }),
     createdAt: timestamp('created_at').notNull().defaultNow(),
@@ -30,8 +33,9 @@ export const routesTable = pgTable('routes_table', {
 });
 
 export const accountsTable = pgTable('accounts_table', {
-    id: serial('id').primaryKey(),
-    routeId: integer('route_id')
+    id: varchar('id', { length: 5 }).primaryKey()
+        .$defaultFn(() => createSlug()),
+    routeId: varchar('route_id', { length: 5 })
         .notNull()
         .references(() => routesTable.id, { onDelete: 'cascade' }),
     accountName: text('account_name').notNull(),
