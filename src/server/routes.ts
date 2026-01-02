@@ -24,7 +24,7 @@ export const createServerRoute = createServerFn({ method: 'POST' })
 
         const user = await getUser();
 
-        var route = await db
+        const route = await db
             .insert(routesTable)
             .values({
                 routeName: data.routeName,
@@ -33,7 +33,7 @@ export const createServerRoute = createServerFn({ method: 'POST' })
             })
             .returning({ id: routesTable.id });
 
-        var createdRouteId = route[0].id;
+        const createdRouteId = route[0].id;
 
         console.log(`Created route with ID: ${createdRouteId}`)
         
