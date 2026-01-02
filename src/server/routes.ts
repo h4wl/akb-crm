@@ -12,6 +12,24 @@ const CreateRouteSchema = z.object({
     description: z.string().min(1),
 })
 
+/**
+ * Helper function to get authenticated user and handle errors
+ * @throws {Error} If user is not found or getUser returns an error
+ */
+async function getAuthenticatedUser() {
+    const user = await getUser();
+
+    if (user.error) {
+        throw new Error(user.error);
+    }
+
+    if (!user.user?.id) {
+        throw new Error('User not found');
+    }
+
+    return user.user;
+}
+
 export const createServerRoute = createServerFn({ method: 'POST' })
     .inputValidator(CreateRouteSchema)
     .handler(async ({ data }) => {
@@ -22,22 +40,14 @@ export const createServerRoute = createServerFn({ method: 'POST' })
             return { success: false, error: 'Not authenticated' }
         }
 
-        const user = await getUser();
-
-        if (user.error) {
-            throw new Error(user.error);
-        }
-
-        if (!user.user?.id) {
-            throw new Error('User not found');
-        }
+        const user = await getAuthenticatedUser();
 
         var route = await db
             .insert(routesTable)
             .values({
                 routeName: data.routeName,
                 description: data.description,
-                userId: user.user.id,
+                userId: user.id,
             })
             .returning({ id: routesTable.id });
 
@@ -66,15 +76,7 @@ export const getServerRoute = createServerFn({ method: 'GET' })
             throw new Error('User not authenticated');
         }
 
-        const user = await getUser();
-
-        if (user.error) {
-            throw new Error(user.error);
-        }
-
-        if (!user.user?.id) {
-            throw new Error('User not found');
-        }
+        const user = await getAuthenticatedUser();
 
         const route = await db
                 .select()
@@ -88,7 +90,7 @@ export const getServerRoute = createServerFn({ method: 'GET' })
         }
 
         // Verify that the route belongs to the authenticated user
-        if (route.userId !== user.user.id) {
+        if (route.userId !== user.id) {
             throw new Error('Not authorized to access this route');
         }
 
@@ -104,20 +106,12 @@ export const getServerRoutes = createServerFn({ method: 'GET' })
             throw new Error('User not authenticated');
         }
 
-        const user = await getUser();
-
-        if (user.error) {
-            throw new Error(user.error);
-        }
-
-        if (!user.user?.id) {
-            throw new Error('User not found');
-        }
+        const user = await getAuthenticatedUser();
 
         const routes = await db
             .select()
             .from(routesTable)
-            .where(eq(routesTable.userId, user.user.id));
+            .where(eq(routesTable.userId, user.id));
 
         return routes;
     });
