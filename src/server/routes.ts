@@ -5,6 +5,7 @@ import { z } from 'zod'
 import { db } from '~/db'
 import { routesTable } from '~/schema'
 import { getUser } from './getUser'
+import { eq } from 'drizzle-orm'
 
 const CreateRouteSchema = z.object({
     routeName: z.string().min(1),
@@ -40,6 +41,30 @@ export const createServerRoute = createServerFn({ method: 'POST' })
             to: '/routes/$routeId',
             params: { routeId: createdRouteId }
         })
+    });
 
-        //return `Created routeName: ${data.routeName}, description ${data.description}, for userId: ${userId}`
-    })
+export const getServerRoute = createServerFn({ method: 'GET' })
+    .inputValidator(z.object({
+        id: z.string().min(5),
+    }))
+    .handler(async ({ data }) => {
+        const { isAuthenticated } = await auth();
+
+        // Return early if user is not authenticated
+        if (!isAuthenticated) {
+            throw new Error('User not authenticated');
+        }
+
+        const route = await db
+                .select()
+                .from(routesTable)
+                .where(eq(routesTable.id, data.id))
+                .limit(1)
+                .then(rows => rows[0]);
+
+        if (!route) {
+            throw new Error('Route not found');
+        }
+
+        return route;
+    });
