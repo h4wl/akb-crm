@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
 import { createServerRoute } from '~/server/routes'
-import { useServerFn } from 'node_modules/@tanstack/react-start/dist/esm/useServerFn'
+import { useServerFn } from '@tanstack/react-start'
 
 export const Route = createFileRoute('/routes/new')({
   component: RouteComponent,
