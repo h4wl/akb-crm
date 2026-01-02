@@ -1,7 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
-import { create } from 'domain'
-import { createRoute } from '~/server/routes'
+import { createServerRoute } from '~/server/routes'
 import { useServerFn } from 'node_modules/@tanstack/react-start/dist/esm/useServerFn'
 
 export const Route = createFileRoute('/routes/new')({
@@ -10,7 +9,7 @@ export const Route = createFileRoute('/routes/new')({
 
 function RouteComponent() {
 
-  const create = useServerFn(createRoute)
+  const createRoute = useServerFn(createServerRoute)
   const form = useForm({
     defaultValues: {
       routeName: '',
@@ -25,7 +24,7 @@ function RouteComponent() {
       // For now, just log the JSON representation
       console.log('Route payload:', JSON.stringify(payload, null, 2))
 
-      await create({data: payload});
+      await createRoute({data: payload});
     },
   })
 
@@ -33,8 +32,7 @@ function RouteComponent() {
     <div className="min-h-screen bg-gray-50 py-12 px-4">
       <div className="mx-auto max-w-3xl">
         <div className="mb-8">
-          <p className="text-sm font-medium text-rose-700">New route</p>
-          <h1 className="mt-2 text-3xl font-bold text-gray-900">Create a route</h1>
+          <h1 className="mt-2 text-3xl font-bold text-gray-900">New Route</h1>
           <p className="mt-2 text-sm text-gray-600">
             Fill in the details for a new route. Submitting will log the JSON payload to the console.
           </p>
