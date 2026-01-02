@@ -68,3 +68,26 @@ export const getServerRoute = createServerFn({ method: 'GET' })
 
         return route;
     });
+
+export const getServerRoutes = createServerFn({ method: 'GET' })
+    .handler(async () => {
+        const { isAuthenticated } = await auth();
+
+        // Return early if user is not authenticated
+        if (!isAuthenticated) {
+            throw new Error('User not authenticated');
+        }
+
+        const user = await getUser();
+
+        if (!user.user?.id) {
+            throw new Error('User not found');
+        }
+
+        const routes = await db
+            .select()
+            .from(routesTable)
+            .where(eq(routesTable.userId, user.user.id));
+
+        return routes;
+    });
