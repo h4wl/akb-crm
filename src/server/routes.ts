@@ -62,6 +62,12 @@ export const getServerRoute = createServerFn({ method: 'GET' })
             throw new Error('User not authenticated');
         }
 
+        const user = await getUser();
+
+        if (!user.user?.id) {
+            throw new Error('User not found');
+        }
+
         const route = await db
                 .select()
                 .from(routesTable)
@@ -71,6 +77,11 @@ export const getServerRoute = createServerFn({ method: 'GET' })
 
         if (!route) {
             throw new Error('Route not found');
+        }
+
+        // Verify that the route belongs to the authenticated user
+        if (route.userId !== user.user.id) {
+            throw new Error('Not authorized to access this route');
         }
 
         return route;
