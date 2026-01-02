@@ -37,6 +37,9 @@ export const createServerRoute = createServerFn({ method: 'POST' })
             })
             .returning({ id: routesTable.id });
 
+        if (!route || route.length === 0 || !route[0]?.id) {
+            throw new Error('Failed to create route');
+        }
         const createdRouteId = route[0].id;
 
         console.log(`Created route with ID: ${createdRouteId}`)
