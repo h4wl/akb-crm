@@ -2,7 +2,7 @@
 
 ## Project context
 
-- Stack: Vite + React + TypeScript, TanStack Start,, Drizzle, and Vite build tooling.
+- Stack: Vite + React + TypeScript, TanStack Start, Drizzle, Base UI, and Vite build tooling.
 - Avoid introducing new major dependencies unless requested.
 - Keep changes minimal and scoped; preserve existing patterns and conventions.
 
