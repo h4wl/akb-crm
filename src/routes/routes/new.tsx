@@ -21,9 +21,6 @@ function RouteComponent() {
         description: value.description.trim(),
       }
 
-      // For now, just log the JSON representation
-      console.log('Route payload:', JSON.stringify(payload, null, 2))
-
       await createRoute({data: payload});
     },
   })
@@ -34,7 +31,7 @@ function RouteComponent() {
         <div className="mb-8">
           <h1 className="mt-2 text-3xl font-bold text-gray-900">New Route</h1>
           <p className="mt-2 text-sm text-gray-600">
-            Fill in the details for a new route. Submitting will log the JSON payload to the console.
+            Fill in the details to create a new route.
           </p>
         </div>
 
