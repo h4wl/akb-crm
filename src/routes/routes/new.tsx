@@ -2,12 +2,14 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
 import { createServerRoute } from '~/server/routes'
 import { useServerFn } from '@tanstack/react-start'
+import { useState } from 'react'
 
 export const Route = createFileRoute('/routes/new')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
+  const [error, setError] = useState<string | null>(null)
 
   const createRoute = useServerFn(createServerRoute)
   const form = useForm({
@@ -16,12 +18,18 @@ function RouteComponent() {
       description: '',
     },
     onSubmit: async ({ value }) => {
-      const payload = {
-        routeName: value.routeName.trim(),
-        description: value.description.trim(),
-      }
+      try {
+        setError(null)
+        const payload = {
+          routeName: value.routeName.trim(),
+          description: value.description.trim(),
+        }
 
-      await createRoute({data: payload});
+        await createRoute({data: payload});
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred while creating the route'
+        setError(errorMessage)
+      }
     },
   })
 
@@ -36,6 +44,23 @@ function RouteComponent() {
         </div>
 
         <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+          {error && (
+            <div className="mb-6 rounded-md bg-rose-50 border border-rose-200 p-4">
+              <div className="flex">
+                <div className="flex-shrink-0">
+                  <svg className="h-5 w-5 text-rose-400" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <div className="ml-3">
+                  <h3 className="text-sm font-medium text-rose-800">Error creating route</h3>
+                  <div className="mt-2 text-sm text-rose-700">
+                    <p>{error}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
           <form
             className="space-y-6"
             onSubmit={(event) => {
