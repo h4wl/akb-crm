@@ -10,6 +10,7 @@ export const Route = createFileRoute('/routes/new')({
 
 function RouteComponent() {
   const [error, setError] = useState<string | null>(null)
+  const DEFAULT_ERROR_MESSAGE = 'An unexpected error occurred while creating the route'
 
   const createRoute = useServerFn(createServerRoute)
   const form = useForm({
@@ -25,9 +26,9 @@ function RouteComponent() {
           description: value.description.trim(),
         }
 
-        await createRoute({data: payload});
+        await createRoute({data: payload})
       } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred while creating the route'
+        const errorMessage = err instanceof Error ? err.message : DEFAULT_ERROR_MESSAGE
         setError(errorMessage)
       }
     },
