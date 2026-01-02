@@ -24,6 +24,10 @@ export const createServerRoute = createServerFn({ method: 'POST' })
 
         const user = await getUser();
 
+        if (user.error) {
+            throw new Error(user.error);
+        }
+
         if (!user.user?.id) {
             throw new Error('User not found');
         }
@@ -101,6 +105,10 @@ export const getServerRoutes = createServerFn({ method: 'GET' })
         }
 
         const user = await getUser();
+
+        if (user.error) {
+            throw new Error(user.error);
+        }
 
         if (!user.user?.id) {
             throw new Error('User not found');
