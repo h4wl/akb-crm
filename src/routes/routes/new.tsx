@@ -21,9 +21,6 @@ function RouteComponent() {
         description: value.description.trim(),
       }
 
-      // For now, just log the JSON representation
-      console.log('Route payload:', JSON.stringify(payload, null, 2))
-
       await createRoute({data: payload});
     },
   })
