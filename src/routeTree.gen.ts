@@ -13,6 +13,9 @@ import { Route as InitRouteImport } from './routes/init'
 import { Route as ErrorRouteImport } from './routes/error'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as RoutesIndexRouteImport } from './routes/routes/index'
+import { Route as RoutesNewRouteImport } from './routes/routes/new'
+import { Route as RoutesRouteIdRouteImport } from './routes/routes/$routeId'
 
 const InitRoute = InitRouteImport.update({
   id: '/init',
@@ -34,18 +37,39 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RoutesIndexRoute = RoutesIndexRouteImport.update({
+  id: '/routes/',
+  path: '/routes/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RoutesNewRoute = RoutesNewRouteImport.update({
+  id: '/routes/new',
+  path: '/routes/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RoutesRouteIdRoute = RoutesRouteIdRouteImport.update({
+  id: '/routes/$routeId',
+  path: '/routes/$routeId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/error': typeof ErrorRoute
   '/init': typeof InitRoute
+  '/routes/$routeId': typeof RoutesRouteIdRoute
+  '/routes/new': typeof RoutesNewRoute
+  '/routes': typeof RoutesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/error': typeof ErrorRoute
   '/init': typeof InitRoute
+  '/routes/$routeId': typeof RoutesRouteIdRoute
+  '/routes/new': typeof RoutesNewRoute
+  '/routes': typeof RoutesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +77,38 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRoute
   '/error': typeof ErrorRoute
   '/init': typeof InitRoute
+  '/routes/$routeId': typeof RoutesRouteIdRoute
+  '/routes/new': typeof RoutesNewRoute
+  '/routes/': typeof RoutesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/error' | '/init'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/error'
+    | '/init'
+    | '/routes/$routeId'
+    | '/routes/new'
+    | '/routes'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/error' | '/init'
-  id: '__root__' | '/' | '/dashboard' | '/error' | '/init'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/error'
+    | '/init'
+    | '/routes/$routeId'
+    | '/routes/new'
+    | '/routes'
+  id:
+    | '__root__'
+    | '/'
+    | '/dashboard'
+    | '/error'
+    | '/init'
+    | '/routes/$routeId'
+    | '/routes/new'
+    | '/routes/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +116,9 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRoute
   ErrorRoute: typeof ErrorRoute
   InitRoute: typeof InitRoute
+  RoutesRouteIdRoute: typeof RoutesRouteIdRoute
+  RoutesNewRoute: typeof RoutesNewRoute
+  RoutesIndexRoute: typeof RoutesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +151,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/routes/': {
+      id: '/routes/'
+      path: '/routes'
+      fullPath: '/routes'
+      preLoaderRoute: typeof RoutesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/routes/new': {
+      id: '/routes/new'
+      path: '/routes/new'
+      fullPath: '/routes/new'
+      preLoaderRoute: typeof RoutesNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/routes/$routeId': {
+      id: '/routes/$routeId'
+      path: '/routes/$routeId'
+      fullPath: '/routes/$routeId'
+      preLoaderRoute: typeof RoutesRouteIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +180,9 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRoute,
   ErrorRoute: ErrorRoute,
   InitRoute: InitRoute,
+  RoutesRouteIdRoute: RoutesRouteIdRoute,
+  RoutesNewRoute: RoutesNewRoute,
+  RoutesIndexRoute: RoutesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

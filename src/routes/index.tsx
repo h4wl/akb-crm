@@ -28,7 +28,6 @@ function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
 
       {/* Hero */}
       <section className="relative isolate overflow-hidden bg-gradient-to-b from-rose-50 to-white">

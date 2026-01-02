@@ -27,7 +27,7 @@ export const getUser = createServerFn({ method: 'GET' })
       const users = await db
         .select()
         .from(usersTable)
-        .where(eq(usersTable.userId, userId))
+        .where(eq(usersTable.clerkId, userId))
         .limit(1)
 
       // Return the user or null if not found
