@@ -10,7 +10,8 @@ export const Route = createFileRoute('/routes/new')({
 
 function RouteComponent() {
   const [error, setError] = useState<string | null>(null)
-  const DEFAULT_ERROR_MESSAGE = 'An unexpected error occurred while creating the route'
+  const DEFAULT_ERROR_MESSAGE =
+    'An unexpected error occurred while creating the route'
 
   const createRoute = useServerFn(createServerRoute)
   const form = useForm({
@@ -26,9 +27,10 @@ function RouteComponent() {
           description: value.description.trim(),
         }
 
-        await createRoute({data: payload})
+        await createRoute({ data: payload })
       } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : DEFAULT_ERROR_MESSAGE
+        const errorMessage =
+          err instanceof Error ? err.message : DEFAULT_ERROR_MESSAGE
         setError(errorMessage)
       }
     },
@@ -40,7 +42,8 @@ function RouteComponent() {
         <div className="mb-8">
           <h1 className="mt-2 text-3xl font-bold text-gray-900">New Route</h1>
           <p className="mt-2 text-sm text-gray-600">
-            Fill in the details for a new route. Submitting will create the route and take you to its details page.
+            Fill in the details for a new route. Submitting will create the
+            route and take you to its details page.
           </p>
         </div>
 
@@ -49,12 +52,22 @@ function RouteComponent() {
             <div className="mb-6 rounded-md bg-rose-50 border border-rose-200 p-4">
               <div className="flex">
                 <div className="flex-shrink-0">
-                  <svg className="h-5 w-5 text-rose-400" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                  <svg
+                    className="h-5 w-5 text-rose-400"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                 </div>
                 <div className="ml-3">
-                  <h3 className="text-sm font-medium text-rose-800">Error creating route</h3>
+                  <h3 className="text-sm font-medium text-rose-800">
+                    Error creating route
+                  </h3>
                   <div className="mt-2 text-sm text-rose-700">
                     <p>{error}</p>
                   </div>
@@ -72,12 +85,16 @@ function RouteComponent() {
             <form.Field
               name="routeName"
               validators={{
-                onChange: ({ value }) => (!value.trim() ? 'Route name is required' : undefined),
+                onChange: ({ value }) =>
+                  !value.trim() ? 'Route name is required' : undefined,
               }}
             >
               {(field) => (
                 <div className="space-y-2">
-                  <label htmlFor="routeName" className="text-sm font-medium text-gray-800">
+                  <label
+                    htmlFor="routeName"
+                    className="text-sm font-medium text-gray-800"
+                  >
                     Route name
                   </label>
                   <input
@@ -100,12 +117,16 @@ function RouteComponent() {
             <form.Field
               name="description"
               validators={{
-                onChange: ({ value }) => (!value.trim() ? 'Description is required' : undefined),
+                onChange: ({ value }) =>
+                  !value.trim() ? 'Description is required' : undefined,
               }}
             >
               {(field) => (
                 <div className="space-y-2">
-                  <label htmlFor="description" className="text-sm font-medium text-gray-800">
+                  <label
+                    htmlFor="description"
+                    className="text-sm font-medium text-gray-800"
+                  >
                     Description
                   </label>
                   <textarea
@@ -125,7 +146,11 @@ function RouteComponent() {
               )}
             </form.Field>
 
-            <form.Subscribe selector={(state) => state.isSubmitting || state.canSubmit === false}>
+            <form.Subscribe
+              selector={(state) =>
+                state.isSubmitting || state.canSubmit === false
+              }
+            >
               {(isBusy) => (
                 <div className="flex items-center justify-end gap-3">
                   <button

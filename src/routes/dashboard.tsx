@@ -72,18 +72,26 @@ function DashboardPage() {
 
               <div className="flex items-start justify-between py-4 border-b border-gray-200">
                 <span className="font-medium text-gray-700">User ID:</span>
-                <span className="text-gray-600 text-sm font-mono">{user.userId}</span>
+                <span className="text-gray-600 text-sm font-mono">
+                  {user.clerkId}
+                </span>
               </div>
 
               <div className="flex items-start justify-between py-4 border-b border-gray-200">
                 <span className="font-medium text-gray-700">Created:</span>
-                <span className="text-gray-900">{formatDate(user.createdAt)}</span>
+                <span className="text-gray-900">
+                  {formatDate(user.createdAt)}
+                </span>
               </div>
 
               {user.updatedAt && (
                 <div className="flex items-start justify-between py-4">
-                  <span className="font-medium text-gray-700">Last Updated:</span>
-                  <span className="text-gray-900">{formatDate(user.updatedAt)}</span>
+                  <span className="font-medium text-gray-700">
+                    Last Updated:
+                  </span>
+                  <span className="text-gray-900">
+                    {formatDate(user.updatedAt)}
+                  </span>
                 </div>
               )}
             </div>

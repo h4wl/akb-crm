@@ -23,7 +23,7 @@ function Routes() {
           Create New Route
         </Link>
       </div>
-      
+
       {routes.length === 0 ? (
         <div className="bg-white shadow rounded-lg p-8 text-center text-gray-500">
           No routes found. Create your first route to get started.
@@ -51,10 +51,14 @@ function Routes() {
               {routes.map((route) => (
                 <tr key={route.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">{route.routeName}</div>
+                    <div className="text-sm font-medium text-gray-900">
+                      {route.routeName}
+                    </div>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="text-sm text-gray-500">{route.description}</div>
+                    <div className="text-sm text-gray-500">
+                      {route.description}
+                    </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-gray-500">

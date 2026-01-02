@@ -34,8 +34,18 @@ export default function Header() {
 
           {/* Center: Simple nav */}
           <nav className="hidden md:flex items-center space-x-6">
-            <a href="#features" className="text-sm text-gray-700 hover:text-gray-900">Features</a>
-            <a href="#how-it-works" className="text-sm text-gray-700 hover:text-gray-900">How it works</a>
+            <a
+              href="#features"
+              className="text-sm text-gray-700 hover:text-gray-900"
+            >
+              Features
+            </a>
+            <a
+              href="#how-it-works"
+              className="text-sm text-gray-700 hover:text-gray-900"
+            >
+              How it works
+            </a>
           </nav>
 
           {/* Right: Auth controls */}
