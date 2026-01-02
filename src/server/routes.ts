@@ -24,12 +24,16 @@ export const createServerRoute = createServerFn({ method: 'POST' })
 
         const user = await getUser();
 
+        if (!user.user?.id) {
+            throw new Error('User not found');
+        }
+
         var route = await db
             .insert(routesTable)
             .values({
                 routeName: data.routeName,
                 description: data.description,
-                userId: user.user?.id!,
+                userId: user.user.id,
             })
             .returning({ id: routesTable.id });
 
