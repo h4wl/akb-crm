@@ -15,10 +15,15 @@ import Header from '../components/header'
 export const Route = createRootRoute({
   head: () => ({
     meta: [
-      // your meta tags and site config
+      { charSet: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
+      { title: 'Crmudgeon - Route CRM' },
+      {
+        name: 'description',
+        content: 'A CRM for beverage sales route management',
+      },
     ],
     links: [{ rel: 'stylesheet', href: appCss }],
-    // other head config
   }),
   component: RootComponent,
 })
@@ -35,11 +40,11 @@ function RootComponent() {
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider>
-      <html>
+      <html lang="en">
         <head>
           <HeadContent />
         </head>
-        <body>
+        <body className="bg-stone-50 text-stone-800 min-h-screen antialiased">
           {children}
           <TanStackRouterDevtools position="bottom-right" />
           <Scripts />
