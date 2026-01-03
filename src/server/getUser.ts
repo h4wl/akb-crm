@@ -1,7 +1,7 @@
 import { createServerFn } from '@tanstack/react-start'
 import { auth } from 'node_modules/@clerk/tanstack-react-start/dist/server/auth'
 import { db } from '~/db'
-import { usersTable, type SelectUser } from '~/schema'
+import { usersTable } from '~/schema'
 import { eq } from 'drizzle-orm'
 
 /**

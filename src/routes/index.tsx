@@ -7,7 +7,6 @@ import {
   useUser,
 } from '@clerk/tanstack-react-start'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import Header from '../components/header'
 
 export const Route = createFileRoute('/')({
   component: Home,
@@ -32,12 +31,12 @@ function Feature({
 }
 
 function Home() {
-  const { isLoaded, isSignedIn, user } = useUser()
+  const { isLoaded } = useUser()
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero */}
-      <section className="relative isolate overflow-hidden bg-gradient-to-b from-rose-50 to-white">
+      <section className="relative isolate overflow-hidden bg-linear-to-b from-rose-50 to-white">
         <div className="mx-auto max-w-7xl px-6 py-16 lg:flex lg:items-center lg:justify-between lg:py-24">
           <div className="max-w-2xl">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">

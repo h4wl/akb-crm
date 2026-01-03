@@ -1,448 +1,659 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Crmudgeon - Route CRM</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        burgundy: {
-                            DEFAULT: '#A64253',
-                            light: '#C76570'
-                        },
-                        amber: {
-                            DEFAULT: '#C17F3C',
-                            light: '#D99F5C'
-                        },
-                        barley: '#E8C547',
-                        hops: {
-                            DEFAULT: '#5C8A6C',
-                            light: '#7AA88A'
-                        },
-                        grape: {
-                            DEFAULT: '#8B6F9E',
-                            light: '#A68DB5'
-                        },
-                        malt: {
-                            DEFAULT: '#D87E47',
-                            light: '#E89A68'
-                        }
-                    }
-                }
-            }
-        }
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              burgundy: {
+                DEFAULT: '#A64253',
+                light: '#C76570',
+              },
+              amber: {
+                DEFAULT: '#C17F3C',
+                light: '#D99F5C',
+              },
+              barley: '#E8C547',
+              hops: {
+                DEFAULT: '#5C8A6C',
+                light: '#7AA88A',
+              },
+              grape: {
+                DEFAULT: '#8B6F9E',
+                light: '#A68DB5',
+              },
+              malt: {
+                DEFAULT: '#D87E47',
+                light: '#E89A68',
+              },
+            },
+          },
+        },
+      }
     </script>
     <style>
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
         }
-        .modal-enter {
-            animation: slideUp 0.3s ease-out;
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
+      }
+      .modal-enter {
+        animation: slideUp 0.3s ease-out;
+      }
     </style>
-</head>
-<body class="bg-stone-50 dark:bg-[#1C1816] text-stone-800 dark:text-stone-100 pb-20">
+  </head>
+  <body
+    class="bg-stone-50 dark:bg-[#1C1816] text-stone-800 dark:text-stone-100 pb-20"
+  >
     <!-- Header -->
-    <header class="bg-gradient-to-r from-burgundy to-amber sticky top-0 z-50 shadow-md">
-        <div class="max-w-2xl mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-2 text-white font-extrabold text-2xl tracking-tight">
-                <span class="text-3xl">😠</span>
-                <span>Crmudgeon</span>
-            </div>
-            <div class="flex items-center gap-2">
-                <button 
-                    onclick="toggleTheme()" 
-                    id="themeToggle"
-                    class="w-9 h-9 flex items-center justify-center text-base bg-white/20 border-2 border-white/30 rounded-lg backdrop-blur-sm active:scale-95 transition-transform"
-                    title="Toggle dark mode">
-                    🌙
-                </button>
-                <div class="bg-white/95 dark:bg-stone-800 px-3 py-2 rounded-xl font-bold text-xs text-stone-800 dark:text-stone-100 shadow-sm">
-                    FRI, JAN 2
-                </div>
-            </div>
+    <header
+      class="bg-linear-to-r from-burgundy to-amber sticky top-0 z-50 shadow-md"
+    >
+      <div
+        class="max-w-2xl mx-auto px-4 py-4 flex justify-between items-center"
+      >
+        <div
+          class="flex items-center gap-2 text-white font-extrabold text-2xl tracking-tight"
+        >
+          <span class="text-3xl">😠</span>
+          <span>Crmudgeon</span>
         </div>
+        <div class="flex items-center gap-2">
+          <button
+            onclick="toggleTheme()"
+            id="themeToggle"
+            class="w-9 h-9 flex items-center justify-center text-base bg-white/20 border-2 border-white/30 rounded-lg backdrop-blur-sm active:scale-95 transition-transform"
+            title="Toggle dark mode"
+          >
+            🌙
+          </button>
+          <div
+            class="bg-white/95 dark:bg-stone-800 px-3 py-2 rounded-xl font-bold text-xs text-stone-800 dark:text-stone-100 shadow-sm"
+          >
+            FRI, JAN 2
+          </div>
+        </div>
+      </div>
     </header>
 
     <div class="max-w-2xl mx-auto px-4 py-4">
-        <!-- MY DAY VIEW -->
-        <div id="myDayView" class="view">
-            <!-- Stats Grid -->
-            <div class="grid grid-cols-2 gap-4 mb-6">
-                <div class="bg-white dark:bg-stone-800 rounded-2xl p-5 shadow-md active:translate-y-0.5 transition-transform">
-                    <div class="text-4xl font-extrabold bg-gradient-to-r from-burgundy to-amber bg-clip-text text-transparent leading-tight">
-                        8
-                    </div>
-                    <div class="text-xs font-semibold uppercase text-stone-500 dark:text-stone-400 mt-2 tracking-wide">
-                        To Contact
-                    </div>
-                </div>
-                <div class="bg-white dark:bg-stone-800 rounded-2xl p-5 shadow-md active:translate-y-0.5 transition-transform">
-                    <div class="text-4xl font-extrabold bg-gradient-to-r from-burgundy to-amber bg-clip-text text-transparent leading-tight">
-                        3
-                    </div>
-                    <div class="text-xs font-semibold uppercase text-stone-500 dark:text-stone-400 mt-2 tracking-wide">
-                        Past Due
-                    </div>
-                </div>
+      <!-- MY DAY VIEW -->
+      <div id="myDayView" class="view">
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-2 gap-4 mb-6">
+          <div
+            class="bg-white dark:bg-stone-800 rounded-2xl p-5 shadow-md active:translate-y-0.5 transition-transform"
+          >
+            <div
+              class="text-4xl font-extrabold bg-linear-to-r from-burgundy to-amber bg-clip-text text-transparent leading-tight"
+            >
+              8
             </div>
-
-            <!-- Section Header -->
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-bold text-stone-800 dark:text-stone-100">Today's Stops</h2>
+            <div
+              class="text-xs font-semibold uppercase text-stone-500 dark:text-stone-400 mt-2 tracking-wide"
+            >
+              To Contact
             </div>
-
-            <!-- Account List -->
-            <div class="space-y-4">
-                <!-- Account Card - Overdue -->
-                <div onclick="openAccountModal('Murphy\'s Tavern')" 
-                     class="bg-white dark:bg-stone-800 rounded-2xl p-5 shadow-md border-l-4 border-burgundy cursor-pointer hover:-translate-y-0.5 active:translate-y-0 hover:shadow-lg active:shadow-sm transition-all">
-                    <div class="inline-block bg-burgundy text-white px-2.5 py-1 text-xs font-bold rounded-md mb-3 tracking-wide">
-                        PAST DUE
-                    </div>
-                    <div class="font-bold text-lg mb-1 text-stone-800 dark:text-stone-100">Murphy's Tavern</div>
-                    <div class="text-sm text-stone-500 dark:text-stone-400 mb-2">1247 Main St, Chicago, IL</div>
-                    <div class="flex gap-4 text-xs text-stone-500 dark:text-stone-400 pt-3 mt-3 border-t border-stone-200 dark:border-stone-700">
-                        <span class="font-semibold">📞 (312) 555-0198</span>
-                        <span class="font-semibold">Last: Dec 18</span>
-                    </div>
-                </div>
-
-                <!-- Account Card - Normal -->
-                <div onclick="openAccountModal('The Hop House')" 
-                     class="bg-white dark:bg-stone-800 rounded-2xl p-5 shadow-md border-l-4 border-amber cursor-pointer hover:-translate-y-0.5 active:translate-y-0 hover:shadow-lg active:shadow-sm transition-all">
-                    <div class="font-bold text-lg mb-1 text-stone-800 dark:text-stone-100">The Hop House</div>
-                    <div class="text-sm text-stone-500 dark:text-stone-400 mb-2">892 Clark Ave, Evanston, IL</div>
-                    <div class="flex gap-4 text-xs text-stone-500 dark:text-stone-400 pt-3 mt-3 border-t border-stone-200 dark:border-stone-700">
-                        <span class="font-semibold">📞 (847) 555-0142</span>
-                        <span class="font-semibold">Last: Dec 26</span>
-                    </div>
-                </div>
-
-                <!-- Account Card - Overdue -->
-                <div onclick="openAccountModal('Vine & Barrel')" 
-                     class="bg-white dark:bg-stone-800 rounded-2xl p-5 shadow-md border-l-4 border-burgundy cursor-pointer hover:-translate-y-0.5 active:translate-y-0 hover:shadow-lg active:shadow-sm transition-all">
-                    <div class="inline-block bg-burgundy text-white px-2.5 py-1 text-xs font-bold rounded-md mb-3 tracking-wide">
-                        PAST DUE
-                    </div>
-                    <div class="font-bold text-lg mb-1 text-stone-800 dark:text-stone-100">Vine & Barrel</div>
-                    <div class="text-sm text-stone-500 dark:text-stone-400 mb-2">445 Oak Park Blvd, Oak Park, IL</div>
-                    <div class="flex gap-4 text-xs text-stone-500 dark:text-stone-400 pt-3 mt-3 border-t border-stone-200 dark:border-stone-700">
-                        <span class="font-semibold">📞 (708) 555-0176</span>
-                        <span class="font-semibold">Last: Dec 15</span>
-                    </div>
-                </div>
-
-                <!-- Account Card - Normal -->
-                <div onclick="openAccountModal('The Red Lion Pub')" 
-                     class="bg-white dark:bg-stone-800 rounded-2xl p-5 shadow-md border-l-4 border-amber cursor-pointer hover:-translate-y-0.5 active:translate-y-0 hover:shadow-lg active:shadow-sm transition-all">
-                    <div class="font-bold text-lg mb-1 text-stone-800 dark:text-stone-100">The Red Lion Pub</div>
-                    <div class="text-sm text-stone-500 dark:text-stone-400 mb-2">2156 N Lincoln Ave, Chicago, IL</div>
-                    <div class="flex gap-4 text-xs text-stone-500 dark:text-stone-400 pt-3 mt-3 border-t border-stone-200 dark:border-stone-700">
-                        <span class="font-semibold">📞 (773) 555-0234</span>
-                        <span class="font-semibold">Last: Dec 27</span>
-                    </div>
-                </div>
-
-                <!-- Account Card - Normal -->
-                <div onclick="openAccountModal('Brewmaster\'s Kitchen')" 
-                     class="bg-white dark:bg-stone-800 rounded-2xl p-5 shadow-md border-l-4 border-amber cursor-pointer hover:-translate-y-0.5 active:translate-y-0 hover:shadow-lg active:shadow-sm transition-all">
-                    <div class="font-bold text-lg mb-1 text-stone-800 dark:text-stone-100">Brewmaster's Kitchen</div>
-                    <div class="text-sm text-stone-500 dark:text-stone-400 mb-2">678 Diversey Pkwy, Chicago, IL</div>
-                    <div class="flex gap-4 text-xs text-stone-500 dark:text-stone-400 pt-3 mt-3 border-t border-stone-200 dark:border-stone-700">
-                        <span class="font-semibold">📞 (312) 555-0298</span>
-                        <span class="font-semibold">Last: Dec 30</span>
-                    </div>
-                </div>
+          </div>
+          <div
+            class="bg-white dark:bg-stone-800 rounded-2xl p-5 shadow-md active:translate-y-0.5 transition-transform"
+          >
+            <div
+              class="text-4xl font-extrabold bg-linear-to-r from-burgundy to-amber bg-clip-text text-transparent leading-tight"
+            >
+              3
             </div>
+            <div
+              class="text-xs font-semibold uppercase text-stone-500 dark:text-stone-400 mt-2 tracking-wide"
+            >
+              Past Due
+            </div>
+          </div>
         </div>
 
-        <!-- ALL ACCOUNTS VIEW -->
-        <div id="allAccountsView" class="view hidden">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-bold text-stone-800 dark:text-stone-100">All Accounts</h2>
-                <button onclick="alert('Filter options: All, Past Due, Snoozed, By Schedule')" 
-                        class="px-4 py-2 rounded-xl bg-amber text-white font-semibold text-sm shadow-sm active:scale-95 transition-transform">
-                    Filter
-                </button>
-            </div>
-
-            <div class="space-y-4">
-                <div class="bg-white dark:bg-stone-800 rounded-2xl p-5 shadow-md border-l-4 border-burgundy">
-                    <div class="inline-block bg-burgundy text-white px-2.5 py-1 text-xs font-bold rounded-md mb-3 tracking-wide">
-                        PAST DUE
-                    </div>
-                    <div class="font-bold text-lg mb-1 text-stone-800 dark:text-stone-100">Murphy's Tavern</div>
-                    <div class="text-sm text-stone-500 dark:text-stone-400 mb-2">1247 Main St, Chicago, IL</div>
-                    <div class="flex gap-4 text-xs text-stone-500 dark:text-stone-400 pt-3 mt-3 border-t border-stone-200 dark:border-stone-700">
-                        <span class="font-semibold">Schedule: Mon/Thu</span>
-                        <span class="font-semibold">Last: Dec 18</span>
-                    </div>
-                </div>
-
-                <div class="bg-white dark:bg-stone-800 rounded-2xl p-5 shadow-md border-l-4 border-amber">
-                    <div class="font-bold text-lg mb-1 text-stone-800 dark:text-stone-100">The Hop House</div>
-                    <div class="text-sm text-stone-500 dark:text-stone-400 mb-2">892 Clark Ave, Evanston, IL</div>
-                    <div class="flex gap-4 text-xs text-stone-500 dark:text-stone-400 pt-3 mt-3 border-t border-stone-200 dark:border-stone-700">
-                        <span class="font-semibold">Schedule: Every 7 days</span>
-                        <span class="font-semibold">Last: Dec 26</span>
-                    </div>
-                </div>
-
-                <div class="bg-white dark:bg-stone-800 rounded-2xl p-5 shadow-md border-l-4 border-amber">
-                    <div class="font-bold text-lg mb-1 text-stone-800 dark:text-stone-100">Cork & Tap</div>
-                    <div class="text-sm text-stone-500 dark:text-stone-400 mb-2">334 Milwaukee Ave, Chicago, IL</div>
-                    <div class="flex gap-4 text-xs text-stone-500 dark:text-stone-400 pt-3 mt-3 border-t border-stone-200 dark:border-stone-700">
-                        <span class="font-semibold">Schedule: Wed/Fri</span>
-                        <span class="font-semibold">Snoozed until: Jan 15</span>
-                    </div>
-                </div>
-            </div>
+        <!-- Section Header -->
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-bold text-stone-800 dark:text-stone-100">
+            Today's Stops
+          </h2>
         </div>
 
-        <!-- COMPLETED VIEW -->
-        <div id="completedView" class="view hidden">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-bold text-stone-800 dark:text-stone-100">Completed Today</h2>
+        <!-- Account List -->
+        <div class="space-y-4">
+          <!-- Account Card - Overdue -->
+          <div
+            onclick="openAccountModal('Murphy\'s Tavern')"
+            class="bg-white dark:bg-stone-800 rounded-2xl p-5 shadow-md border-l-4 border-burgundy cursor-pointer hover:-translate-y-0.5 active:translate-y-0 hover:shadow-lg active:shadow-sm transition-all"
+          >
+            <div
+              class="inline-block bg-burgundy text-white px-2.5 py-1 text-xs font-bold rounded-md mb-3 tracking-wide"
+            >
+              PAST DUE
             </div>
+            <div
+              class="font-bold text-lg mb-1 text-stone-800 dark:text-stone-100"
+            >
+              Murphy's Tavern
+            </div>
+            <div class="text-sm text-stone-500 dark:text-stone-400 mb-2">
+              1247 Main St, Chicago, IL
+            </div>
+            <div
+              class="flex gap-4 text-xs text-stone-500 dark:text-stone-400 pt-3 mt-3 border-t border-stone-200 dark:border-stone-700"
+            >
+              <span class="font-semibold">📞 (312) 555-0198</span>
+              <span class="font-semibold">Last: Dec 18</span>
+            </div>
+          </div>
 
-            <div class="text-center py-12 text-stone-500 dark:text-stone-400">
-                <div class="text-6xl mb-4 opacity-50">✓</div>
-                <div class="font-semibold text-lg">No contacts logged yet today</div>
+          <!-- Account Card - Normal -->
+          <div
+            onclick="openAccountModal('The Hop House')"
+            class="bg-white dark:bg-stone-800 rounded-2xl p-5 shadow-md border-l-4 border-amber cursor-pointer hover:-translate-y-0.5 active:translate-y-0 hover:shadow-lg active:shadow-sm transition-all"
+          >
+            <div
+              class="font-bold text-lg mb-1 text-stone-800 dark:text-stone-100"
+            >
+              The Hop House
             </div>
+            <div class="text-sm text-stone-500 dark:text-stone-400 mb-2">
+              892 Clark Ave, Evanston, IL
+            </div>
+            <div
+              class="flex gap-4 text-xs text-stone-500 dark:text-stone-400 pt-3 mt-3 border-t border-stone-200 dark:border-stone-700"
+            >
+              <span class="font-semibold">📞 (847) 555-0142</span>
+              <span class="font-semibold">Last: Dec 26</span>
+            </div>
+          </div>
+
+          <!-- Account Card - Overdue -->
+          <div
+            onclick="openAccountModal('Vine & Barrel')"
+            class="bg-white dark:bg-stone-800 rounded-2xl p-5 shadow-md border-l-4 border-burgundy cursor-pointer hover:-translate-y-0.5 active:translate-y-0 hover:shadow-lg active:shadow-sm transition-all"
+          >
+            <div
+              class="inline-block bg-burgundy text-white px-2.5 py-1 text-xs font-bold rounded-md mb-3 tracking-wide"
+            >
+              PAST DUE
+            </div>
+            <div
+              class="font-bold text-lg mb-1 text-stone-800 dark:text-stone-100"
+            >
+              Vine & Barrel
+            </div>
+            <div class="text-sm text-stone-500 dark:text-stone-400 mb-2">
+              445 Oak Park Blvd, Oak Park, IL
+            </div>
+            <div
+              class="flex gap-4 text-xs text-stone-500 dark:text-stone-400 pt-3 mt-3 border-t border-stone-200 dark:border-stone-700"
+            >
+              <span class="font-semibold">📞 (708) 555-0176</span>
+              <span class="font-semibold">Last: Dec 15</span>
+            </div>
+          </div>
+
+          <!-- Account Card - Normal -->
+          <div
+            onclick="openAccountModal('The Red Lion Pub')"
+            class="bg-white dark:bg-stone-800 rounded-2xl p-5 shadow-md border-l-4 border-amber cursor-pointer hover:-translate-y-0.5 active:translate-y-0 hover:shadow-lg active:shadow-sm transition-all"
+          >
+            <div
+              class="font-bold text-lg mb-1 text-stone-800 dark:text-stone-100"
+            >
+              The Red Lion Pub
+            </div>
+            <div class="text-sm text-stone-500 dark:text-stone-400 mb-2">
+              2156 N Lincoln Ave, Chicago, IL
+            </div>
+            <div
+              class="flex gap-4 text-xs text-stone-500 dark:text-stone-400 pt-3 mt-3 border-t border-stone-200 dark:border-stone-700"
+            >
+              <span class="font-semibold">📞 (773) 555-0234</span>
+              <span class="font-semibold">Last: Dec 27</span>
+            </div>
+          </div>
+
+          <!-- Account Card - Normal -->
+          <div
+            onclick="openAccountModal('Brewmaster\'s Kitchen')"
+            class="bg-white dark:bg-stone-800 rounded-2xl p-5 shadow-md border-l-4 border-amber cursor-pointer hover:-translate-y-0.5 active:translate-y-0 hover:shadow-lg active:shadow-sm transition-all"
+          >
+            <div
+              class="font-bold text-lg mb-1 text-stone-800 dark:text-stone-100"
+            >
+              Brewmaster's Kitchen
+            </div>
+            <div class="text-sm text-stone-500 dark:text-stone-400 mb-2">
+              678 Diversey Pkwy, Chicago, IL
+            </div>
+            <div
+              class="flex gap-4 text-xs text-stone-500 dark:text-stone-400 pt-3 mt-3 border-t border-stone-200 dark:border-stone-700"
+            >
+              <span class="font-semibold">📞 (312) 555-0298</span>
+              <span class="font-semibold">Last: Dec 30</span>
+            </div>
+          </div>
         </div>
+      </div>
+
+      <!-- ALL ACCOUNTS VIEW -->
+      <div id="allAccountsView" class="view hidden">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-bold text-stone-800 dark:text-stone-100">
+            All Accounts
+          </h2>
+          <button
+            onclick="
+              alert('Filter options: All, Past Due, Snoozed, By Schedule')
+            "
+            class="px-4 py-2 rounded-xl bg-amber text-white font-semibold text-sm shadow-sm active:scale-95 transition-transform"
+          >
+            Filter
+          </button>
+        </div>
+
+        <div class="space-y-4">
+          <div
+            class="bg-white dark:bg-stone-800 rounded-2xl p-5 shadow-md border-l-4 border-burgundy"
+          >
+            <div
+              class="inline-block bg-burgundy text-white px-2.5 py-1 text-xs font-bold rounded-md mb-3 tracking-wide"
+            >
+              PAST DUE
+            </div>
+            <div
+              class="font-bold text-lg mb-1 text-stone-800 dark:text-stone-100"
+            >
+              Murphy's Tavern
+            </div>
+            <div class="text-sm text-stone-500 dark:text-stone-400 mb-2">
+              1247 Main St, Chicago, IL
+            </div>
+            <div
+              class="flex gap-4 text-xs text-stone-500 dark:text-stone-400 pt-3 mt-3 border-t border-stone-200 dark:border-stone-700"
+            >
+              <span class="font-semibold">Schedule: Mon/Thu</span>
+              <span class="font-semibold">Last: Dec 18</span>
+            </div>
+          </div>
+
+          <div
+            class="bg-white dark:bg-stone-800 rounded-2xl p-5 shadow-md border-l-4 border-amber"
+          >
+            <div
+              class="font-bold text-lg mb-1 text-stone-800 dark:text-stone-100"
+            >
+              The Hop House
+            </div>
+            <div class="text-sm text-stone-500 dark:text-stone-400 mb-2">
+              892 Clark Ave, Evanston, IL
+            </div>
+            <div
+              class="flex gap-4 text-xs text-stone-500 dark:text-stone-400 pt-3 mt-3 border-t border-stone-200 dark:border-stone-700"
+            >
+              <span class="font-semibold">Schedule: Every 7 days</span>
+              <span class="font-semibold">Last: Dec 26</span>
+            </div>
+          </div>
+
+          <div
+            class="bg-white dark:bg-stone-800 rounded-2xl p-5 shadow-md border-l-4 border-amber"
+          >
+            <div
+              class="font-bold text-lg mb-1 text-stone-800 dark:text-stone-100"
+            >
+              Cork & Tap
+            </div>
+            <div class="text-sm text-stone-500 dark:text-stone-400 mb-2">
+              334 Milwaukee Ave, Chicago, IL
+            </div>
+            <div
+              class="flex gap-4 text-xs text-stone-500 dark:text-stone-400 pt-3 mt-3 border-t border-stone-200 dark:border-stone-700"
+            >
+              <span class="font-semibold">Schedule: Wed/Fri</span>
+              <span class="font-semibold">Snoozed until: Jan 15</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMPLETED VIEW -->
+      <div id="completedView" class="view hidden">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-bold text-stone-800 dark:text-stone-100">
+            Completed Today
+          </h2>
+        </div>
+
+        <div class="text-center py-12 text-stone-500 dark:text-stone-400">
+          <div class="text-6xl mb-4 opacity-50">✓</div>
+          <div class="font-semibold text-lg">No contacts logged yet today</div>
+        </div>
+      </div>
     </div>
 
     <!-- Account Detail Modal -->
-    <div id="accountModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 p-4 overflow-y-auto">
-        <div class="max-w-2xl w-full mx-auto mt-8 modal-enter">
-            <div class="bg-white dark:bg-stone-800 rounded-3xl shadow-2xl p-6">
-                <div class="flex justify-between items-start mb-6">
-                    <div class="text-2xl font-extrabold text-stone-800 dark:text-stone-100" id="modalAccountName">Murphy's Tavern</div>
-                    <button onclick="closeAccountModal()" 
-                            class="w-10 h-10 flex items-center justify-center text-2xl font-bold bg-stone-100 dark:bg-stone-700 text-stone-500 dark:text-stone-300 rounded-xl hover:bg-stone-200 dark:hover:bg-stone-600 active:scale-95 transition-all">
-                        ×
-                    </button>
-                </div>
-
-                <div class="space-y-6">
-                    <div>
-                        <h3 class="text-xs font-bold uppercase text-stone-500 dark:text-stone-400 mb-3 tracking-wide">Address</h3>
-                        <div class="bg-stone-50 dark:bg-stone-900 rounded-xl p-4">
-                            <div class="text-sm text-stone-600 dark:text-stone-300">1247 Main St<br>Chicago, IL 60614</div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h3 class="text-xs font-bold uppercase text-stone-500 dark:text-stone-400 mb-3 tracking-wide">Contacts</h3>
-                        <div class="space-y-3">
-                            <div class="bg-stone-50 dark:bg-stone-900 rounded-xl p-4">
-                                <div class="font-bold mb-1 text-stone-800 dark:text-stone-100">Kevin Murphy</div>
-                                <div class="text-sm text-stone-500 dark:text-stone-400">📞 (312) 555-0198 • Owner</div>
-                            </div>
-                            <div class="bg-stone-50 dark:bg-stone-900 rounded-xl p-4">
-                                <div class="font-bold mb-1 text-stone-800 dark:text-stone-100">Sarah Chen</div>
-                                <div class="text-sm text-stone-500 dark:text-stone-400">📞 (312) 555-0199 • Bar Manager</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h3 class="text-xs font-bold uppercase text-stone-500 dark:text-stone-400 mb-3 tracking-wide">Schedule</h3>
-                        <div class="bg-stone-50 dark:bg-stone-900 rounded-xl p-4">
-                            <div class="text-sm text-stone-600 dark:text-stone-300">Every Monday & Thursday</div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h3 class="text-xs font-bold uppercase text-stone-500 dark:text-stone-400 mb-3 tracking-wide">Last Contact</h3>
-                        <div class="bg-stone-50 dark:bg-stone-900 rounded-xl p-4">
-                            <div class="text-sm text-stone-600 dark:text-stone-300">
-                                <strong>December 18, 2024</strong><br>
-                                "Ordered 2 cases Modelo, interested in trying new IPA selection next visit. Mentioned they're planning a Super Bowl special menu."
-                            </div>
-                        </div>
-                    </div>
-
-                    <button onclick="openContactLog()" 
-                            class="w-full py-4 rounded-xl bg-gradient-to-r from-burgundy to-malt text-white font-bold uppercase tracking-wide shadow-sm active:scale-98 transition-transform">
-                        Log Contact
-                    </button>
-                    <button onclick="alert('Snooze options: 1 week, 2 weeks, Custom date')" 
-                            class="w-full py-4 rounded-xl bg-stone-100 dark:bg-stone-700 text-stone-800 dark:text-stone-100 font-bold uppercase tracking-wide border-2 border-stone-200 dark:border-stone-600 active:scale-98 transition-transform">
-                        Snooze Account
-                    </button>
-                </div>
+    <div
+      id="accountModal"
+      class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 p-4 overflow-y-auto"
+    >
+      <div class="max-w-2xl w-full mx-auto mt-8 modal-enter">
+        <div class="bg-white dark:bg-stone-800 rounded-3xl shadow-2xl p-6">
+          <div class="flex justify-between items-start mb-6">
+            <div
+              class="text-2xl font-extrabold text-stone-800 dark:text-stone-100"
+              id="modalAccountName"
+            >
+              Murphy's Tavern
             </div>
+            <button
+              onclick="closeAccountModal()"
+              class="w-10 h-10 flex items-center justify-center text-2xl font-bold bg-stone-100 dark:bg-stone-700 text-stone-500 dark:text-stone-300 rounded-xl hover:bg-stone-200 dark:hover:bg-stone-600 active:scale-95 transition-all"
+            >
+              ×
+            </button>
+          </div>
+
+          <div class="space-y-6">
+            <div>
+              <h3
+                class="text-xs font-bold uppercase text-stone-500 dark:text-stone-400 mb-3 tracking-wide"
+              >
+                Address
+              </h3>
+              <div class="bg-stone-50 dark:bg-stone-900 rounded-xl p-4">
+                <div class="text-sm text-stone-600 dark:text-stone-300">
+                  1247 Main St<br />Chicago, IL 60614
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3
+                class="text-xs font-bold uppercase text-stone-500 dark:text-stone-400 mb-3 tracking-wide"
+              >
+                Contacts
+              </h3>
+              <div class="space-y-3">
+                <div class="bg-stone-50 dark:bg-stone-900 rounded-xl p-4">
+                  <div
+                    class="font-bold mb-1 text-stone-800 dark:text-stone-100"
+                  >
+                    Kevin Murphy
+                  </div>
+                  <div class="text-sm text-stone-500 dark:text-stone-400">
+                    📞 (312) 555-0198 • Owner
+                  </div>
+                </div>
+                <div class="bg-stone-50 dark:bg-stone-900 rounded-xl p-4">
+                  <div
+                    class="font-bold mb-1 text-stone-800 dark:text-stone-100"
+                  >
+                    Sarah Chen
+                  </div>
+                  <div class="text-sm text-stone-500 dark:text-stone-400">
+                    📞 (312) 555-0199 • Bar Manager
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3
+                class="text-xs font-bold uppercase text-stone-500 dark:text-stone-400 mb-3 tracking-wide"
+              >
+                Schedule
+              </h3>
+              <div class="bg-stone-50 dark:bg-stone-900 rounded-xl p-4">
+                <div class="text-sm text-stone-600 dark:text-stone-300">
+                  Every Monday & Thursday
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3
+                class="text-xs font-bold uppercase text-stone-500 dark:text-stone-400 mb-3 tracking-wide"
+              >
+                Last Contact
+              </h3>
+              <div class="bg-stone-50 dark:bg-stone-900 rounded-xl p-4">
+                <div class="text-sm text-stone-600 dark:text-stone-300">
+                  <strong>December 18, 2024</strong><br />
+                  "Ordered 2 cases Modelo, interested in trying new IPA
+                  selection next visit. Mentioned they're planning a Super Bowl
+                  special menu."
+                </div>
+              </div>
+            </div>
+
+            <button
+              onclick="openContactLog()"
+              class="w-full py-4 rounded-xl bg-linear-to-r from-burgundy to-malt text-white font-bold uppercase tracking-wide shadow-sm active:scale-98 transition-transform"
+            >
+              Log Contact
+            </button>
+            <button
+              onclick="alert('Snooze options: 1 week, 2 weeks, Custom date')"
+              class="w-full py-4 rounded-xl bg-stone-100 dark:bg-stone-700 text-stone-800 dark:text-stone-100 font-bold uppercase tracking-wide border-2 border-stone-200 dark:border-stone-600 active:scale-98 transition-transform"
+            >
+              Snooze Account
+            </button>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- Contact Logging Modal -->
-    <div id="contactModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 p-4 overflow-y-auto">
-        <div class="max-w-2xl w-full mx-auto mt-8 modal-enter">
-            <div class="bg-white dark:bg-stone-800 rounded-3xl shadow-2xl p-6">
-                <div class="flex justify-between items-start mb-6">
-                    <div class="text-2xl font-extrabold text-stone-800 dark:text-stone-100">Log Contact</div>
-                    <button onclick="closeContactLog()" 
-                            class="w-10 h-10 flex items-center justify-center text-2xl font-bold bg-stone-100 dark:bg-stone-700 text-stone-500 dark:text-stone-300 rounded-xl hover:bg-stone-200 dark:hover:bg-stone-600 active:scale-95 transition-all">
-                        ×
-                    </button>
-                </div>
-
-                <div class="space-y-6">
-                    <div>
-                        <h3 class="text-base font-bold text-stone-800 dark:text-stone-100 mb-2" id="contactAccountName">Murphy's Tavern</h3>
-                        <div class="bg-stone-50 dark:bg-stone-900 rounded-xl p-4">
-                            <div class="text-sm text-stone-600 dark:text-stone-300">Friday, January 2, 2026</div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h3 class="text-xs font-bold uppercase text-stone-500 dark:text-stone-400 mb-3 tracking-wide">Notes</h3>
-                        <textarea 
-                            class="w-full min-h-[120px] p-4 border-2 border-stone-200 dark:border-stone-600 rounded-xl resize-y bg-white dark:bg-stone-900 text-stone-800 dark:text-stone-100 focus:outline-none focus:border-amber focus:ring-4 focus:ring-amber/20 transition-all" 
-                            placeholder="What happened during this visit? Orders placed, upcoming events, requests..."></textarea>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-3">
-                        <button onclick="closeContactLog()" 
-                                class="py-4 rounded-xl bg-stone-100 dark:bg-stone-700 text-stone-800 dark:text-stone-100 font-bold uppercase tracking-wide border-2 border-stone-200 dark:border-stone-600 active:scale-98 transition-transform">
-                            Cancel
-                        </button>
-                        <button onclick="saveContact()" 
-                                class="py-4 rounded-xl bg-gradient-to-r from-burgundy to-malt text-white font-bold uppercase tracking-wide shadow-sm active:scale-98 transition-transform">
-                            Save Contact
-                        </button>
-                    </div>
-                </div>
+    <div
+      id="contactModal"
+      class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 p-4 overflow-y-auto"
+    >
+      <div class="max-w-2xl w-full mx-auto mt-8 modal-enter">
+        <div class="bg-white dark:bg-stone-800 rounded-3xl shadow-2xl p-6">
+          <div class="flex justify-between items-start mb-6">
+            <div
+              class="text-2xl font-extrabold text-stone-800 dark:text-stone-100"
+            >
+              Log Contact
             </div>
+            <button
+              onclick="closeContactLog()"
+              class="w-10 h-10 flex items-center justify-center text-2xl font-bold bg-stone-100 dark:bg-stone-700 text-stone-500 dark:text-stone-300 rounded-xl hover:bg-stone-200 dark:hover:bg-stone-600 active:scale-95 transition-all"
+            >
+              ×
+            </button>
+          </div>
+
+          <div class="space-y-6">
+            <div>
+              <h3
+                class="text-base font-bold text-stone-800 dark:text-stone-100 mb-2"
+                id="contactAccountName"
+              >
+                Murphy's Tavern
+              </h3>
+              <div class="bg-stone-50 dark:bg-stone-900 rounded-xl p-4">
+                <div class="text-sm text-stone-600 dark:text-stone-300">
+                  Friday, January 2, 2026
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3
+                class="text-xs font-bold uppercase text-stone-500 dark:text-stone-400 mb-3 tracking-wide"
+              >
+                Notes
+              </h3>
+              <textarea
+                class="w-full min-h-30 p-4 border-2 border-stone-200 dark:border-stone-600 rounded-xl resize-y bg-white dark:bg-stone-900 text-stone-800 dark:text-stone-100 focus:outline-none focus:border-amber focus:ring-4 focus:ring-amber/20 transition-all"
+                placeholder="What happened during this visit? Orders placed, upcoming events, requests..."
+              ></textarea>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <button
+                onclick="closeContactLog()"
+                class="py-4 rounded-xl bg-stone-100 dark:bg-stone-700 text-stone-800 dark:text-stone-100 font-bold uppercase tracking-wide border-2 border-stone-200 dark:border-stone-600 active:scale-98 transition-transform"
+              >
+                Cancel
+              </button>
+              <button
+                onclick="saveContact()"
+                class="py-4 rounded-xl bg-linear-to-r from-burgundy to-malt text-white font-bold uppercase tracking-wide shadow-sm active:scale-98 transition-transform"
+              >
+                Save Contact
+              </button>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- Bottom Navigation -->
-    <nav class="fixed bottom-0 left-0 right-0 bg-white dark:bg-stone-800 border-t border-stone-200 dark:border-stone-700 shadow-lg backdrop-blur-sm">
-        <div class="flex justify-around p-2">
-            <div onclick="switchView('myDayView', this)" 
-                 class="nav-item flex flex-col items-center gap-1 text-burgundy bg-burgundy/10 text-xs font-semibold uppercase cursor-pointer py-3 px-4 flex-1 text-center rounded-xl transition-all">
-                <div class="text-2xl">☀️</div>
-                <div>My Day</div>
-            </div>
-            <div onclick="switchView('allAccountsView', this)" 
-                 class="nav-item flex flex-col items-center gap-1 text-stone-500 dark:text-stone-400 text-xs font-semibold uppercase cursor-pointer py-3 px-4 flex-1 text-center rounded-xl transition-all">
-                <div class="text-2xl">📋</div>
-                <div>All</div>
-            </div>
-            <div onclick="switchView('completedView', this)" 
-                 class="nav-item flex flex-col items-center gap-1 text-stone-500 dark:text-stone-400 text-xs font-semibold uppercase cursor-pointer py-3 px-4 flex-1 text-center rounded-xl transition-all">
-                <div class="text-2xl">✓</div>
-                <div>Done</div>
-            </div>
-            <div onclick="alert('Settings: Profile, Preferences, Schedule Templates, Export Data')" 
-                 class="nav-item flex flex-col items-center gap-1 text-stone-500 dark:text-stone-400 text-xs font-semibold uppercase cursor-pointer py-3 px-4 flex-1 text-center rounded-xl transition-all">
-                <div class="text-2xl">⚙️</div>
-                <div>More</div>
-            </div>
+    <nav
+      class="fixed bottom-0 left-0 right-0 bg-white dark:bg-stone-800 border-t border-stone-200 dark:border-stone-700 shadow-lg backdrop-blur-sm"
+    >
+      <div class="flex justify-around p-2">
+        <div
+          onclick="switchView('myDayView', this)"
+          class="nav-item flex flex-col items-center gap-1 text-burgundy bg-burgundy/10 text-xs font-semibold uppercase cursor-pointer py-3 px-4 flex-1 text-center rounded-xl transition-all"
+        >
+          <div class="text-2xl">☀️</div>
+          <div>My Day</div>
         </div>
+        <div
+          onclick="switchView('allAccountsView', this)"
+          class="nav-item flex flex-col items-center gap-1 text-stone-500 dark:text-stone-400 text-xs font-semibold uppercase cursor-pointer py-3 px-4 flex-1 text-center rounded-xl transition-all"
+        >
+          <div class="text-2xl">📋</div>
+          <div>All</div>
+        </div>
+        <div
+          onclick="switchView('completedView', this)"
+          class="nav-item flex flex-col items-center gap-1 text-stone-500 dark:text-stone-400 text-xs font-semibold uppercase cursor-pointer py-3 px-4 flex-1 text-center rounded-xl transition-all"
+        >
+          <div class="text-2xl">✓</div>
+          <div>Done</div>
+        </div>
+        <div
+          onclick="
+            alert(
+              'Settings: Profile, Preferences, Schedule Templates, Export Data',
+            )
+          "
+          class="nav-item flex flex-col items-center gap-1 text-stone-500 dark:text-stone-400 text-xs font-semibold uppercase cursor-pointer py-3 px-4 flex-1 text-center rounded-xl transition-all"
+        >
+          <div class="text-2xl">⚙️</div>
+          <div>More</div>
+        </div>
+      </div>
     </nav>
 
     <script>
-        // Theme toggle
-        function toggleTheme() {
-            const html = document.documentElement;
-            const isDark = html.classList.contains('dark');
-            const toggleBtn = document.getElementById('themeToggle');
-            
-            if (isDark) {
-                html.classList.remove('dark');
-                toggleBtn.textContent = '🌙';
-                localStorage.setItem('crmudgeon-theme', 'light');
-            } else {
-                html.classList.add('dark');
-                toggleBtn.textContent = '☀️';
-                localStorage.setItem('crmudgeon-theme', 'dark');
+      // Theme toggle
+      function toggleTheme() {
+        const html = document.documentElement
+        const isDark = html.classList.contains('dark')
+        const toggleBtn = document.getElementById('themeToggle')
+
+        if (isDark) {
+          html.classList.remove('dark')
+          toggleBtn.textContent = '🌙'
+          localStorage.setItem('crmudgeon-theme', 'light')
+        } else {
+          html.classList.add('dark')
+          toggleBtn.textContent = '☀️'
+          localStorage.setItem('crmudgeon-theme', 'dark')
+        }
+      }
+
+      // Load saved theme preference
+      ;(function () {
+        const savedTheme = localStorage.getItem('crmudgeon-theme') || 'light'
+        const toggleBtn = document.getElementById('themeToggle')
+
+        if (savedTheme === 'dark') {
+          document.documentElement.classList.add('dark')
+          toggleBtn.textContent = '☀️'
+        }
+      })()
+
+      function switchView(viewId, navElement) {
+        // Hide all views
+        document.querySelectorAll('.view').forEach((view) => {
+          view.classList.add('hidden')
+        })
+
+        // Show selected view
+        document.getElementById(viewId).classList.remove('hidden')
+
+        // Update nav active state
+        document.querySelectorAll('.nav-item').forEach((item) => {
+          item.classList.remove('text-burgundy', 'bg-burgundy/10')
+          item.classList.add('text-stone-500', 'dark:text-stone-400')
+        })
+        if (navElement) {
+          navElement.classList.remove('text-stone-500', 'dark:text-stone-400')
+          navElement.classList.add('text-burgundy', 'bg-burgundy/10')
+        }
+      }
+
+      function openAccountModal(accountName) {
+        document.getElementById('modalAccountName').textContent = accountName
+        document.getElementById('accountModal').classList.remove('hidden')
+        document.body.style.overflow = 'hidden'
+      }
+
+      function closeAccountModal() {
+        document.getElementById('accountModal').classList.add('hidden')
+        document.body.style.overflow = 'auto'
+      }
+
+      function openContactLog() {
+        const accountName =
+          document.getElementById('modalAccountName').textContent
+        document.getElementById('contactAccountName').textContent = accountName
+        closeAccountModal()
+        document.getElementById('contactModal').classList.remove('hidden')
+      }
+
+      function closeContactLog() {
+        document.getElementById('contactModal').classList.add('hidden')
+        document.body.style.overflow = 'auto'
+      }
+
+      function saveContact() {
+        alert(
+          'Contact logged! This account will be removed from "My Day" and scheduled for next contact based on its schedule.',
+        )
+        closeContactLog()
+      }
+
+      // Close modals on overlay click
+      document
+        .querySelectorAll('#accountModal, #contactModal')
+        .forEach((overlay) => {
+          overlay.addEventListener('click', function (e) {
+            if (e.target === this) {
+              this.classList.add('hidden')
+              document.body.style.overflow = 'auto'
             }
-        }
-
-        // Load saved theme preference
-        (function() {
-            const savedTheme = localStorage.getItem('crmudgeon-theme') || 'light';
-            const toggleBtn = document.getElementById('themeToggle');
-            
-            if (savedTheme === 'dark') {
-                document.documentElement.classList.add('dark');
-                toggleBtn.textContent = '☀️';
-            }
-        })();
-
-        function switchView(viewId, navElement) {
-            // Hide all views
-            document.querySelectorAll('.view').forEach(view => {
-                view.classList.add('hidden');
-            });
-            
-            // Show selected view
-            document.getElementById(viewId).classList.remove('hidden');
-            
-            // Update nav active state
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('text-burgundy', 'bg-burgundy/10');
-                item.classList.add('text-stone-500', 'dark:text-stone-400');
-            });
-            if (navElement) {
-                navElement.classList.remove('text-stone-500', 'dark:text-stone-400');
-                navElement.classList.add('text-burgundy', 'bg-burgundy/10');
-            }
-        }
-
-        function openAccountModal(accountName) {
-            document.getElementById('modalAccountName').textContent = accountName;
-            document.getElementById('accountModal').classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeAccountModal() {
-            document.getElementById('accountModal').classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
-
-        function openContactLog() {
-            const accountName = document.getElementById('modalAccountName').textContent;
-            document.getElementById('contactAccountName').textContent = accountName;
-            closeAccountModal();
-            document.getElementById('contactModal').classList.remove('hidden');
-        }
-
-        function closeContactLog() {
-            document.getElementById('contactModal').classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
-
-        function saveContact() {
-            alert('Contact logged! This account will be removed from "My Day" and scheduled for next contact based on its schedule.');
-            closeContactLog();
-        }
-
-        // Close modals on overlay click
-        document.querySelectorAll('#accountModal, #contactModal').forEach(overlay => {
-            overlay.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    this.classList.add('hidden');
-                    document.body.style.overflow = 'auto';
-                }
-            });
-        });
+          })
+        })
     </script>
-</body>
+  </body>
 </html>

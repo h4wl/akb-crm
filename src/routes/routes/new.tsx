@@ -169,7 +169,7 @@ function RouteComponent() {
                 <Button
                   type="submit"
                   disabled={isBusy}
-                  className="px-6 py-3 rounded-xl bg-gradient-to-r from-burgundy to-malt text-white font-bold uppercase tracking-wide shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-sm transition-all disabled:cursor-not-allowed disabled:opacity-60"
+                  className="px-6 py-3 rounded-xl bg-linear-to-r from-burgundy to-malt text-white font-bold uppercase tracking-wide shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-sm transition-all disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   Create Route
                 </Button>

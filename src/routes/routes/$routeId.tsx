@@ -49,7 +49,7 @@ function RouteComponent() {
 
         <div className="space-y-5">
           <div className="flex pb-5 border-b border-stone-200 dark:border-stone-700">
-            <div className="min-w-[140px] text-xs font-bold uppercase text-stone-500 dark:text-stone-400 pt-1 tracking-wide">
+            <div className="min-w-35 text-xs font-bold uppercase text-stone-500 dark:text-stone-400 pt-1 tracking-wide">
               Route ID
             </div>
             <div className="flex-1 text-stone-800 dark:text-stone-100 font-mono text-sm">
@@ -58,7 +58,7 @@ function RouteComponent() {
           </div>
 
           <div className="flex pb-5 border-b border-stone-200 dark:border-stone-700">
-            <div className="min-w-[140px] text-xs font-bold uppercase text-stone-500 dark:text-stone-400 pt-1 tracking-wide">
+            <div className="min-w-35 text-xs font-bold uppercase text-stone-500 dark:text-stone-400 pt-1 tracking-wide">
               Description
             </div>
             <div className="flex-1 text-stone-800 dark:text-stone-100">
@@ -67,7 +67,7 @@ function RouteComponent() {
           </div>
 
           <div className="flex pb-5 border-b border-stone-200 dark:border-stone-700">
-            <div className="min-w-[140px] text-xs font-bold uppercase text-stone-500 dark:text-stone-400 pt-1 tracking-wide">
+            <div className="min-w-35 text-xs font-bold uppercase text-stone-500 dark:text-stone-400 pt-1 tracking-wide">
               Created
             </div>
             <div className="flex-1 text-stone-800 dark:text-stone-100">
@@ -80,7 +80,7 @@ function RouteComponent() {
           </div>
 
           <div className="flex">
-            <div className="min-w-[140px] text-xs font-bold uppercase text-stone-500 dark:text-stone-400 pt-1 tracking-wide">
+            <div className="min-w-35 text-xs font-bold uppercase text-stone-500 dark:text-stone-400 pt-1 tracking-wide">
               Last Updated
             </div>
             <div className="flex-1 text-stone-800 dark:text-stone-100">
