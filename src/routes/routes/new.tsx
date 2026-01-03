@@ -3,6 +3,9 @@ import { useForm } from '@tanstack/react-form'
 import { createServerRoute } from '~/server/routes'
 import { useServerFn } from '@tanstack/react-start'
 import { useState } from 'react'
+import { Form } from '@base-ui/react/form'
+import { Field } from '@base-ui/react/field'
+import { Button } from '@base-ui/react/button'
 
 export const Route = createFileRoute('/routes/new')({
   component: RouteComponent,
@@ -40,7 +43,7 @@ function RouteComponent() {
     <div className="min-h-screen bg-gray-50 py-12 px-4">
       <div className="mx-auto max-w-3xl">
         <div className="mb-8">
-          <h1 className="mt-2 text-3xl font-bold text-gray-900">New Route</h1>
+          <h1>New Route</h1>
           <p className="mt-2 text-sm text-gray-600">
             Fill in the details for a new route. Submitting will create the
             route and take you to its details page.
@@ -75,7 +78,7 @@ function RouteComponent() {
               </div>
             </div>
           )}
-          <form
+          <Form
             className="space-y-6"
             onSubmit={(event) => {
               event.preventDefault()
@@ -90,27 +93,25 @@ function RouteComponent() {
               }}
             >
               {(field) => (
-                <div className="space-y-2">
-                  <label
-                    htmlFor="routeName"
-                    className="text-sm font-medium text-gray-800"
-                  >
-                    Route name
-                  </label>
-                  <input
-                    id="routeName"
-                    name="routeName"
-                    type="text"
+                <Field.Root
+                  name={field.name}
+                  invalid={!field.state.meta.isValid}
+                  dirty={field.state.meta.isDirty}
+                  touched={field.state.meta.isTouched}
+                  className="space-y-2"
+                >
+                  <Field.Label>Route Name</Field.Label>
+                  <Field.Control
                     value={field.state.value}
-                    onChange={(event) => field.handleChange(event.target.value)}
+                    onValueChange={field.handleChange}
                     onBlur={field.handleBlur}
+                    placeholder="e.g. Northside Wednesday route"
                     className="w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-rose-500 focus:outline-none focus:ring-2 focus:ring-rose-200"
-                    placeholder="Northside Wednesday route"
                   />
-                  {/* {field.state.meta.touchedErrors ? (
-                    <p className="text-sm text-rose-700">{field.state.meta.touchedErrors}</p>
-                  ) : null} */}
-                </div>
+                  <Field.Error match={!field.state.meta.isValid}>
+                    {field.state.meta.errors.join(',')}
+                  </Field.Error>
+                </Field.Root>
               )}
             </form.Field>
 
@@ -122,27 +123,25 @@ function RouteComponent() {
               }}
             >
               {(field) => (
-                <div className="space-y-2">
-                  <label
-                    htmlFor="description"
-                    className="text-sm font-medium text-gray-800"
-                  >
-                    Description
-                  </label>
-                  <textarea
-                    id="description"
-                    name="description"
+                <Field.Root
+                  name={field.name}
+                  invalid={!field.state.meta.isValid}
+                  dirty={field.state.meta.isDirty}
+                  touched={field.state.meta.isTouched}
+                  className="space-y-2"
+                >
+                  <Field.Label>Description</Field.Label>
+                  <Field.Control
                     value={field.state.value}
-                    onChange={(event) => field.handleChange(event.target.value)}
+                    onValueChange={field.handleChange}
                     onBlur={field.handleBlur}
-                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-rose-500 focus:outline-none focus:ring-2 focus:ring-rose-200"
                     placeholder="List the stops, cadence, or goal for this route"
-                    rows={4}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-rose-500 focus:outline-none focus:ring-2 focus:ring-rose-200"
                   />
-                  {/* {field.state.meta.touchedErrors ? (
-                    <p className="text-sm text-rose-700">{field.state.meta.touchedErrors}</p>
-                  ) : null} */}
-                </div>
+                  <Field.Error match={!field.state.meta.isValid}>
+                    {field.state.meta.errors.join(',')}
+                  </Field.Error>
+                </Field.Root>
               )}
             </form.Field>
 
@@ -153,24 +152,24 @@ function RouteComponent() {
             >
               {(isBusy) => (
                 <div className="flex items-center justify-end gap-3">
-                  <button
+                  <Button
                     type="button"
                     className="text-sm font-medium text-gray-600 hover:text-gray-800"
                     onClick={() => form.reset()}
                   >
                     Reset
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     type="submit"
                     disabled={isBusy}
                     className="inline-flex items-center rounded-md bg-rose-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 disabled:cursor-not-allowed disabled:opacity-60"
                   >
-                    {isBusy ? 'Creating...' : 'Create route'}
-                  </button>
+                    Create route
+                  </Button>
                 </div>
               )}
             </form.Subscribe>
-          </form>
+          </Form>
         </div>
       </div>
     </div>
