@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crmudgeon - Account Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        burgundy: {
+                            DEFAULT: '#A64253',
+                            light: '#C76570'
+                        },
+                        amber: {
+                            DEFAULT: '#C17F3C',
+                            light: '#D99F5C'
+                        },
+                        barley: '#E8C547',
+                        hops: {
+                            DEFAULT: '#5C8A6C',
+                            light: '#7AA88A'
+                        },
+                        grape: {
+                            DEFAULT: '#8B6F9E',
+                            light: '#A68DB5'
+                        },
+                        malt: {
+                            DEFAULT: '#D87E47',
+                            light: '#E89A68'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-stone-50 dark:bg-[#1C1816] text-stone-800 dark:text-stone-100 min-h-screen">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-burgundy to-amber sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-8 py-5 flex justify-between items-center">
+            <div class="flex items-center gap-3 text-white font-extrabold text-3xl tracking-tight">
+                <span class="text-4xl">😠</span>
+                <span>Crmudgeon</span>
+            </div>
+            <nav class="flex items-center gap-4">
+                <a href="#" class="text-white/90 font-semibold px-4 py-2 rounded-xl text-sm uppercase tracking-wide hover:bg-white/15 transition-colors">My Day</a>
+                <a href="#" class="text-white bg-white/25 font-semibold px-4 py-2 rounded-xl text-sm uppercase tracking-wide transition-colors">Accounts</a>
+                <a href="#" class="text-white/90 font-semibold px-4 py-2 rounded-xl text-sm uppercase tracking-wide hover:bg-white/15 transition-colors">Reports</a>
+                <a href="#" class="text-white/90 font-semibold px-4 py-2 rounded-xl text-sm uppercase tracking-wide hover:bg-white/15 transition-colors">Settings</a>
+                <button 
+                    onclick="toggleTheme()" 
+                    id="themeToggle"
+                    class="w-10 h-10 flex items-center justify-center text-xl bg-white/20 border-2 border-white/30 rounded-xl backdrop-blur-sm hover:bg-white/30 hover:scale-105 active:scale-95 transition-all"
+                    title="Toggle dark mode">
+                    🌙
+                </button>
+                <div class="bg-white px-5 py-2 rounded-xl font-bold text-sm text-burgundy shadow-sm">
+                    Mike R.
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-8 py-8">
+        <!-- Breadcrumb -->
+        <div class="mb-6 text-sm font-semibold text-stone-500 dark:text-stone-400">
+            <a href="#" class="text-burgundy font-bold hover:underline">All Accounts</a> / Murphy's Tavern
+        </div>
+
+        <!-- Page Header -->
+        <div class="flex justify-between items-start mb-8">
+            <div class="flex-1">
+                <h1 class="text-5xl font-extrabold tracking-tight mb-2 text-stone-800 dark:text-stone-100">Murphy's Tavern</h1>
+                <p class="text-lg font-semibold text-stone-500 dark:text-stone-400">1247 Main St, Chicago, IL 60614</p>
+            </div>
+            <div class="flex gap-4">
+                <button onclick="alert('Edit account details')" 
+                        class="px-6 py-3 rounded-xl bg-white dark:bg-stone-800 text-stone-800 dark:text-stone-100 font-bold uppercase tracking-wide border-2 border-stone-200 dark:border-stone-600 shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-sm transition-all">
+                    Edit Account
+                </button>
+                <button onclick="scrollToNotes()" 
+                        class="px-6 py-3 rounded-xl bg-gradient-to-r from-burgundy to-malt text-white font-bold uppercase tracking-wide shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-sm transition-all">
+                    Add Note
+                </button>
+            </div>
+        </div>
+
+        <!-- Two Column Grid -->
+        <div class="grid grid-cols-2 gap-8 mb-8">
+            <!-- Account Details Card -->
+            <div class="bg-white dark:bg-stone-800 rounded-3xl p-7 shadow-md">
+                <div class="flex justify-between items-center mb-6 pb-4 border-b-2 border-stone-200 dark:border-stone-700">
+                    <h2 class="text-xl font-extrabold text-stone-800 dark:text-stone-100">Account Details</h2>
+                    <span class="px-3.5 py-1.5 rounded-lg bg-burgundy text-white text-xs font-bold uppercase tracking-wide">Past Due</span>
+                </div>
+
+                <div class="space-y-5">
+                    <div class="flex pb-5 border-b border-stone-200 dark:border-stone-700">
+                        <div class="min-w-[140px] text-xs font-bold uppercase text-stone-500 dark:text-stone-400 pt-1 tracking-wide">Status</div>
+                        <div class="flex-1 text-stone-800 dark:text-stone-100">Active Account</div>
+                    </div>
+
+                    <div class="flex pb-5 border-b border-stone-200 dark:border-stone-700">
+                        <div class="min-w-[140px] text-xs font-bold uppercase text-stone-500 dark:text-stone-400 pt-1 tracking-wide">Phone</div>
+                        <div class="flex-1">
+                            <a href="tel:3125550198" class="text-burgundy font-semibold hover:underline">(312) 555-0198</a>
+                        </div>
+                    </div>
+
+                    <div class="flex pb-5 border-b border-stone-200 dark:border-stone-700">
+                        <div class="min-w-[140px] text-xs font-bold uppercase text-stone-500 dark:text-stone-400 pt-1 tracking-wide">Email</div>
+                        <div class="flex-1">
+                            <a href="mailto:info@murphystavern.com" class="text-burgundy font-semibold hover:underline">info@murphystavern.com</a>
+                        </div>
+                    </div>
+
+                    <div class="flex pb-5 border-b border-stone-200 dark:border-stone-700">
+                        <div class="min-w-[140px] text-xs font-bold uppercase text-stone-500 dark:text-stone-400 pt-1 tracking-wide">Address</div>
+                        <div class="flex-1 text-stone-800 dark:text-stone-100">
+                            1247 Main St<br>
+                            Chicago, IL 60614
+                        </div>
+                    </div>
+
+                    <div class="flex pb-5 border-b border-stone-200 dark:border-stone-700">
+                        <div class="min-w-[140px] text-xs font-bold uppercase text-stone-500 dark:text-stone-400 pt-1 tracking-wide">License #</div>
+                        <div class="flex-1 text-stone-800 dark:text-stone-100">IL-BEV-2018-04721</div>
+                    </div>
+
+                    <div class="flex">
+                        <div class="min-w-[140px] text-xs font-bold uppercase text-stone-500 dark:text-stone-400 pt-1 tracking-wide">Account Since</div>
+                        <div class="flex-1 text-stone-800 dark:text-stone-100">March 2018</div>
+                    </div>
+
+                    <div class="mt-4 w-full h-[300px] rounded-2xl overflow-hidden shadow-sm dark:brightness-90 dark:contrast-110">
+                        <img src="https://api.mapbox.com/styles/v1/mapbox/streets-v12/static/pin-s+A64253(-87.6298,41.8781)/(-87.6298,41.8781),13,0/600x300@2x?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw" 
+                             alt="Map of Murphy's Tavern location" 
+                             class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Schedule & Contacts Column -->
+            <div class="space-y-8">
+                <!-- Schedule Card -->
+                <div class="bg-white dark:bg-stone-800 rounded-3xl p-7 shadow-md">
+                    <div class="flex justify-between items-center mb-6 pb-4 border-b-2 border-stone-200 dark:border-stone-700">
+                        <h2 class="text-xl font-extrabold text-stone-800 dark:text-stone-100">Contact Schedule</h2>
+                        <button onclick="alert('Edit schedule')" 
+                                class="px-4 py-2 rounded-xl bg-amber text-white font-bold text-sm hover:-translate-y-0.5 hover:shadow-sm active:translate-y-0 transition-all">
+                            Edit
+                        </button>
+                    </div>
+
+                    <div class="space-y-5">
+                        <div class="flex pb-5 border-b border-stone-200 dark:border-stone-700">
+                            <div class="min-w-[140px] text-xs font-bold uppercase text-stone-500 dark:text-stone-400 pt-1 tracking-wide">Frequency</div>
+                            <div class="flex-1 text-stone-800 dark:text-stone-100">Every Monday & Thursday</div>
+                        </div>
+
+                        <div class="flex pb-5 border-b border-stone-200 dark:border-stone-700">
+                            <div class="min-w-[140px] text-xs font-bold uppercase text-stone-500 dark:text-stone-400 pt-1 tracking-wide">Last Contact</div>
+                            <div class="flex-1 text-stone-800 dark:text-stone-100">December 18, 2024 (15 days ago)</div>
+                        </div>
+
+                        <div class="flex pb-5 border-b border-stone-200 dark:border-stone-700">
+                            <div class="min-w-[140px] text-xs font-bold uppercase text-stone-500 dark:text-stone-400 pt-1 tracking-wide">Next Scheduled</div>
+                            <div class="flex-1 text-burgundy font-bold">Today (Thursday, Jan 2)</div>
+                        </div>
+
+                        <div class="flex">
+                            <div class="min-w-[140px] text-xs font-bold uppercase text-stone-500 dark:text-stone-400 pt-1 tracking-wide">Avg. Time Between</div>
+                            <div class="flex-1 text-stone-800 dark:text-stone-100">3.5 days</div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 flex flex-col gap-3">
+                        <button onclick="alert('Snooze until specific date')" 
+                                class="w-full py-4 rounded-xl bg-white dark:bg-stone-700 text-stone-800 dark:text-stone-100 font-bold uppercase tracking-wide border-2 border-stone-200 dark:border-stone-600 shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-sm transition-all">
+                            Snooze Account
+                        </button>
+                        <button onclick="scrollToNotes()" 
+                                class="w-full py-4 rounded-xl bg-gradient-to-r from-burgundy to-malt text-white font-bold uppercase tracking-wide shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-sm transition-all">
+                            Log Contact Now
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Contacts Card -->
+                <div class="bg-white dark:bg-stone-800 rounded-3xl p-7 shadow-md">
+                    <div class="flex justify-between items-center mb-6 pb-4 border-b-2 border-stone-200 dark:border-stone-700">
+                        <h2 class="text-xl font-extrabold text-stone-800 dark:text-stone-100">Contacts</h2>
+                        <button onclick="alert('Add new contact')" 
+                                class="px-4 py-2 rounded-xl bg-amber text-white font-bold text-sm hover:-translate-y-0.5 hover:shadow-sm active:translate-y-0 transition-all">
+                            + Add
+                        </button>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="bg-stone-50 dark:bg-stone-900 rounded-xl p-4 hover:translate-x-1 hover:shadow-sm transition-all">
+                            <div class="font-bold text-lg mb-1 text-stone-800 dark:text-stone-100">Kevin Murphy</div>
+                            <div class="text-sm font-semibold text-stone-500 dark:text-stone-400 mb-2">Owner</div>
+                            <div class="text-sm text-stone-500 dark:text-stone-400">
+                                <span class="mr-4">📞 (312) 555-0198</span>
+                                <span>✉️ kevin@murphystavern.com</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-stone-50 dark:bg-stone-900 rounded-xl p-4 hover:translate-x-1 hover:shadow-sm transition-all">
+                            <div class="font-bold text-lg mb-1 text-stone-800 dark:text-stone-100">Sarah Chen</div>
+                            <div class="text-sm font-semibold text-stone-500 dark:text-stone-400 mb-2">Bar Manager</div>
+                            <div class="text-sm text-stone-500 dark:text-stone-400">
+                                <span class="mr-4">📞 (312) 555-0199</span>
+                                <span>✉️ sarah@murphystavern.com</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-stone-50 dark:bg-stone-900 rounded-xl p-4 hover:translate-x-1 hover:shadow-sm transition-all">
+                            <div class="font-bold text-lg mb-1 text-stone-800 dark:text-stone-100">Tommy O'Brien</div>
+                            <div class="text-sm font-semibold text-stone-500 dark:text-stone-400 mb-2">Head Chef</div>
+                            <div class="text-sm text-stone-500 dark:text-stone-400">
+                                <span>📞 (312) 555-0200</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notes Section - Full Width -->
+        <div class="space-y-8">
+            <!-- Note Composer -->
+            <div class="bg-white dark:bg-stone-800 rounded-3xl p-7 shadow-md">
+                <div class="flex justify-between items-center mb-6 pb-4 border-b-2 border-stone-200 dark:border-stone-700">
+                    <h2 class="text-xl font-extrabold text-stone-800 dark:text-stone-100">Add Note</h2>
+                </div>
+
+                <div class="bg-white dark:bg-stone-800 rounded-2xl">
+                    <textarea 
+                        id="noteInput"
+                        class="w-full min-h-[120px] p-4 border-2 border-stone-200 dark:border-stone-600 rounded-xl resize-y mb-4 bg-white dark:bg-stone-900 text-stone-800 dark:text-stone-100 focus:outline-none focus:border-amber focus:ring-4 focus:ring-amber/20 transition-all" 
+                        placeholder="What happened during this visit? Orders placed, upcoming events, customer requests, competitive intel..."></textarea>
+                    
+                    <div class="flex justify-between items-center">
+                        <div class="flex gap-2">
+                            <button onclick="setNoteType(this, 'contact')" 
+                                    class="note-type-btn px-4 py-2 rounded-xl bg-amber text-white border-2 border-amber font-semibold text-sm uppercase tracking-wide transition-all">
+                                Contact Log
+                            </button>
+                            <button onclick="setNoteType(this, 'order')" 
+                                    class="note-type-btn px-4 py-2 rounded-xl bg-stone-100 dark:bg-stone-700 text-stone-800 dark:text-stone-100 border-2 border-stone-200 dark:border-stone-600 font-semibold text-sm uppercase tracking-wide hover:border-amber transition-all">
+                                Order
+                            </button>
+                            <button onclick="setNoteType(this, 'note')" 
+                                    class="note-type-btn px-4 py-2 rounded-xl bg-stone-100 dark:bg-stone-700 text-stone-800 dark:text-stone-100 border-2 border-stone-200 dark:border-stone-600 font-semibold text-sm uppercase tracking-wide hover:border-amber transition-all">
+                                General Note
+                            </button>
+                        </div>
+                        <button onclick="saveNote()" 
+                                class="px-6 py-3 rounded-xl bg-gradient-to-r from-burgundy to-malt text-white font-bold uppercase tracking-wide shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-sm transition-all">
+                            Save Note
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activity Timeline -->
+            <div class="bg-white dark:bg-stone-800 rounded-3xl p-7 shadow-md">
+                <div class="flex justify-between items-center mb-6 pb-4 border-b-2 border-stone-200 dark:border-stone-700">
+                    <h2 class="text-xl font-extrabold text-stone-800 dark:text-stone-100">Activity Timeline</h2>
+                    <select class="px-4 py-2 rounded-xl bg-stone-100 dark:bg-stone-700 text-stone-800 dark:text-stone-100 font-bold text-sm cursor-pointer border-none">
+                        <option>All Activity</option>
+                        <option>Contact Logs Only</option>
+                        <option>Orders Only</option>
+                        <option>Notes Only</option>
+                    </select>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Timeline Item - Contact Log -->
+                    <div class="bg-white dark:bg-stone-800 rounded-2xl p-6 shadow-md border-l-4 border-hops hover:translate-x-1 hover:shadow-lg transition-all">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex-1">
+                                <div class="inline-block px-3 py-1 rounded-md bg-hops text-white text-xs font-bold uppercase tracking-wide mb-2">Contact Log</div>
+                                <div class="font-bold text-lg mb-1 text-stone-800 dark:text-stone-100">December 18, 2024</div>
+                                <div class="text-sm font-semibold text-stone-500 dark:text-stone-400">by Mike Rodriguez</div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="alert('Edit note')" 
+                                        class="w-9 h-9 flex items-center justify-center rounded-lg bg-stone-100 dark:bg-stone-700 text-stone-500 dark:text-stone-300 text-lg font-bold hover:bg-stone-200 dark:hover:bg-stone-600 hover:scale-110 active:scale-95 transition-all">
+                                    ✎
+                                </button>
+                                <button onclick="alert('Delete note')" 
+                                        class="w-9 h-9 flex items-center justify-center rounded-lg bg-stone-100 dark:bg-stone-700 text-stone-500 dark:text-stone-300 text-lg font-bold hover:bg-stone-200 dark:hover:bg-stone-600 hover:scale-110 active:scale-95 transition-all">
+                                    ×
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-base leading-relaxed text-stone-800 dark:text-stone-100">
+                            Ordered 2 cases Modelo, interested in trying new IPA selection next visit. Mentioned they're planning a Super Bowl special menu. Kevin asked about getting samples of the new craft lagers we discussed last time. Follow up needed on pricing for bulk orders.
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item - Order -->
+                    <div class="bg-white dark:bg-stone-800 rounded-2xl p-6 shadow-md border-l-4 border-burgundy hover:translate-x-1 hover:shadow-lg transition-all">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex-1">
+                                <div class="inline-block px-3 py-1 rounded-md bg-burgundy text-white text-xs font-bold uppercase tracking-wide mb-2">Order Placed</div>
+                                <div class="font-bold text-lg mb-1 text-stone-800 dark:text-stone-100">December 18, 2024</div>
+                                <div class="text-sm font-semibold text-stone-500 dark:text-stone-400">by Mike Rodriguez</div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="alert('View order details')" 
+                                        class="w-9 h-9 flex items-center justify-center rounded-lg bg-stone-100 dark:bg-stone-700 text-stone-500 dark:text-stone-300 text-lg font-bold hover:bg-stone-200 dark:hover:bg-stone-600 hover:scale-110 active:scale-95 transition-all">
+                                    👁
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-base leading-relaxed text-stone-800 dark:text-stone-100">
+                            <strong>Order #4721</strong><br>
+                            • 2 cases Modelo Especial (24-pack)<br>
+                            • 1 case Guinness Draught (12-pack)<br>
+                            Total: $387.50
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item - Contact Log -->
+                    <div class="bg-white dark:bg-stone-800 rounded-2xl p-6 shadow-md border-l-4 border-hops hover:translate-x-1 hover:shadow-lg transition-all">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex-1">
+                                <div class="inline-block px-3 py-1 rounded-md bg-hops text-white text-xs font-bold uppercase tracking-wide mb-2">Contact Log</div>
+                                <div class="font-bold text-lg mb-1 text-stone-800 dark:text-stone-100">December 11, 2024</div>
+                                <div class="text-sm font-semibold text-stone-500 dark:text-stone-400">by Mike Rodriguez</div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="alert('Edit note')" 
+                                        class="w-9 h-9 flex items-center justify-center rounded-lg bg-stone-100 dark:bg-stone-700 text-stone-500 dark:text-stone-300 text-lg font-bold hover:bg-stone-200 dark:hover:bg-stone-600 hover:scale-110 active:scale-95 transition-all">
+                                    ✎
+                                </button>
+                                <button onclick="alert('Delete note')" 
+                                        class="w-9 h-9 flex items-center justify-center rounded-lg bg-stone-100 dark:bg-stone-700 text-stone-500 dark:text-stone-300 text-lg font-bold hover:bg-stone-200 dark:hover:bg-stone-600 hover:scale-110 active:scale-95 transition-all">
+                                    ×
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-base leading-relaxed text-stone-800 dark:text-stone-100">
+                            Quick check-in. Sarah mentioned they're low on popular IPAs. Restocked immediately. Asked about holiday specials - sent catalog via email. Kevin not available but Sarah said he's interested in expanding wine selection for New Year's.
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item - Note -->
+                    <div class="bg-white dark:bg-stone-800 rounded-2xl p-6 shadow-md border-l-4 border-barley hover:translate-x-1 hover:shadow-lg transition-all">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex-1">
+                                <div class="inline-block px-3 py-1 rounded-md bg-barley text-stone-800 text-xs font-bold uppercase tracking-wide mb-2">Note</div>
+                                <div class="font-bold text-lg mb-1 text-stone-800 dark:text-stone-100">December 4, 2024</div>
+                                <div class="text-sm font-semibold text-stone-500 dark:text-stone-400">by Mike Rodriguez</div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="alert('Edit note')" 
+                                        class="w-9 h-9 flex items-center justify-center rounded-lg bg-stone-100 dark:bg-stone-700 text-stone-500 dark:text-stone-300 text-lg font-bold hover:bg-stone-200 dark:hover:bg-stone-600 hover:scale-110 active:scale-95 transition-all">
+                                    ✎
+                                </button>
+                                <button onclick="alert('Delete note')" 
+                                        class="w-9 h-9 flex items-center justify-center rounded-lg bg-stone-100 dark:bg-stone-700 text-stone-500 dark:text-stone-300 text-lg font-bold hover:bg-stone-200 dark:hover:bg-stone-600 hover:scale-110 active:scale-95 transition-all">
+                                    ×
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-base leading-relaxed text-stone-800 dark:text-stone-100">
+                            Competitor (MillerCoors rep) was spotted leaving as I arrived. Kevin mentioned they offered a discount on bulk Coors Light. Matched pricing and highlighted our superior craft selection and service. Account secure.
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item - Contact Log -->
+                    <div class="bg-white dark:bg-stone-800 rounded-2xl p-6 shadow-md border-l-4 border-hops hover:translate-x-1 hover:shadow-lg transition-all">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex-1">
+                                <div class="inline-block px-3 py-1 rounded-md bg-hops text-white text-xs font-bold uppercase tracking-wide mb-2">Contact Log</div>
+                                <div class="font-bold text-lg mb-1 text-stone-800 dark:text-stone-100">November 28, 2024</div>
+                                <div class="text-sm font-semibold text-stone-500 dark:text-stone-400">by Mike Rodriguez</div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="alert('Edit note')" 
+                                        class="w-9 h-9 flex items-center justify-center rounded-lg bg-stone-100 dark:bg-stone-700 text-stone-500 dark:text-stone-300 text-lg font-bold hover:bg-stone-200 dark:hover:bg-stone-600 hover:scale-110 active:scale-95 transition-all">
+                                    ✎
+                                </button>
+                                <button onclick="alert('Delete note')" 
+                                        class="w-9 h-9 flex items-center justify-center rounded-lg bg-stone-100 dark:bg-stone-700 text-stone-500 dark:text-stone-300 text-lg font-bold hover:bg-stone-200 dark:hover:bg-stone-600 hover:scale-110 active:scale-95 transition-all">
+                                    ×
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-base leading-relaxed text-stone-800 dark:text-stone-100">
+                            Thanksgiving week check-in. Discussed Black Friday promotions. Kevin very happy with our service consistency. Relationship strong. Looking to add 2-3 new craft beers to their rotating taps in January.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            const isDark = html.classList.contains('dark');
+            const toggleBtn = document.getElementById('themeToggle');
+            
+            if (isDark) {
+                html.classList.remove('dark');
+                toggleBtn.textContent = '🌙';
+                localStorage.setItem('crmudgeon-theme', 'light');
+            } else {
+                html.classList.add('dark');
+                toggleBtn.textContent = '☀️';
+                localStorage.setItem('crmudgeon-theme', 'dark');
+            }
+        }
+
+        // Load saved theme preference
+        (function() {
+            const savedTheme = localStorage.getItem('crmudgeon-theme') || 'light';
+            const toggleBtn = document.getElementById('themeToggle');
+            
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+                toggleBtn.textContent = '☀️';
+            }
+        })();
+
+        function setNoteType(btn, type) {
+            document.querySelectorAll('.note-type-btn').forEach(b => {
+                b.classList.remove('bg-amber', 'text-white', 'border-amber');
+                b.classList.add('bg-stone-100', 'dark:bg-stone-700', 'text-stone-800', 'dark:text-stone-100', 'border-stone-200', 'dark:border-stone-600');
+            });
+            btn.classList.remove('bg-stone-100', 'dark:bg-stone-700', 'text-stone-800', 'dark:text-stone-100', 'border-stone-200', 'dark:border-stone-600');
+            btn.classList.add('bg-amber', 'text-white', 'border-amber');
+        }
+
+        function saveNote() {
+            const noteText = document.getElementById('noteInput').value;
+            if (!noteText.trim()) {
+                alert('Please enter a note before saving.');
+                return;
+            }
+            alert('Note saved! The timeline will update and the account\'s "last contact" date will be updated.');
+            document.getElementById('noteInput').value = '';
+        }
+
+        function scrollToNotes() {
+            document.getElementById('noteInput').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            document.getElementById('noteInput').focus();
+        }
+    </script>
+</body>
+</html>
