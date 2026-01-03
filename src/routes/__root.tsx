@@ -11,6 +11,7 @@ import {
 
 import appCss from '../styles/app.css?url'
 import Header from '../components/header'
+import { ThemeProvider } from '../components/theme-provider'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -44,8 +45,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <head>
           <HeadContent />
         </head>
-        <body className="bg-stone-50 text-stone-800 min-h-screen antialiased">
-          {children}
+        <body className="bg-stone-50 dark:bg-[#1C1816] text-stone-800 dark:text-stone-100 min-h-screen antialiased transition-colors">
+          <ThemeProvider>{children}</ThemeProvider>
           <TanStackRouterDevtools position="bottom-right" />
           <Scripts />
         </body>

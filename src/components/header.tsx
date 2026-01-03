@@ -7,9 +7,11 @@ import {
   useUser,
 } from '@clerk/tanstack-react-start'
 import { Link } from '@tanstack/react-router'
+import { useTheme } from './theme-provider'
 
 export default function Header() {
   const { isLoaded, user } = useUser()
+  const { theme, toggleTheme } = useTheme()
 
   return (
     <header className="bg-gradient-to-r from-burgundy to-amber sticky top-0 z-50 shadow-md">
@@ -39,8 +41,16 @@ export default function Header() {
           </Link>
         </nav>
 
-        {/* Right: Auth controls */}
+        {/* Right: Theme toggle + Auth controls */}
         <div className="flex items-center gap-3">
+          <button
+            onClick={toggleTheme}
+            className="w-10 h-10 flex items-center justify-center text-xl bg-white/20 border-2 border-white/30 rounded-xl backdrop-blur-sm hover:bg-white/30 hover:scale-105 active:scale-95 transition-all"
+            title="Toggle dark mode"
+          >
+            {theme === 'dark' ? '☀️' : '🌙'}
+          </button>
+
           {!isLoaded ? (
             <div className="h-8 w-24 bg-white/20 rounded-xl animate-pulse" />
           ) : (

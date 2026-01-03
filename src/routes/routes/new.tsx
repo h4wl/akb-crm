@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
 import { createServerRoute } from '~/server/routes'
 import { useServerFn } from '@tanstack/react-start'
@@ -40,137 +40,143 @@ function RouteComponent() {
   })
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4">
-      <div className="mx-auto max-w-3xl">
-        <div className="mb-8">
-          <h1>New Route</h1>
-          <p className="mt-2 text-sm text-gray-600">
-            Fill in the details for a new route. Submitting will create the
-            route and take you to its details page.
-          </p>
-        </div>
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Breadcrumb */}
+      <div className="mb-6 text-sm font-semibold text-stone-500 dark:text-stone-400">
+        <Link to="/routes" className="text-burgundy font-bold hover:underline">
+          All Routes
+        </Link>{' '}
+        / New Route
+      </div>
 
-        <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-          {error && (
-            <div className="mb-6 rounded-md bg-rose-50 border border-rose-200 p-4">
-              <div className="flex">
-                <div className="flex-shrink-0">
-                  <svg
-                    className="h-5 w-5 text-rose-400"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <div className="ml-3">
-                  <h3 className="text-sm font-medium text-rose-800">
-                    Error creating route
-                  </h3>
-                  <div className="mt-2 text-sm text-rose-700">
-                    <p>{error}</p>
-                  </div>
-                </div>
+      {/* Page Header */}
+      <div className="mb-8">
+        <h1 className="text-4xl font-extrabold tracking-tight text-stone-800 dark:text-stone-100">
+          New Route
+        </h1>
+        <p className="mt-2 text-lg font-semibold text-stone-500 dark:text-stone-400">
+          Fill in the details for a new route.
+        </p>
+      </div>
+
+      {/* Form Card */}
+      <div className="bg-white dark:bg-stone-800 rounded-3xl p-7 shadow-md">
+        {error && (
+          <div className="mb-6 rounded-2xl bg-burgundy/10 border-2 border-burgundy/20 p-4">
+            <div className="flex items-start gap-3">
+              <span className="text-xl">⚠️</span>
+              <div>
+                <h3 className="text-sm font-bold text-burgundy">
+                  Error creating route
+                </h3>
+                <p className="mt-1 text-sm text-burgundy/80">{error}</p>
               </div>
             </div>
-          )}
-          <Form
-            className="space-y-6"
-            onSubmit={(event) => {
-              event.preventDefault()
-              void form.handleSubmit()
+          </div>
+        )}
+
+        <Form
+          className="space-y-6"
+          onSubmit={(event) => {
+            event.preventDefault()
+            void form.handleSubmit()
+          }}
+        >
+          <form.Field
+            name="routeName"
+            validators={{
+              onChange: ({ value }) =>
+                !value.trim() ? 'Route name is required' : undefined,
             }}
           >
-            <form.Field
-              name="routeName"
-              validators={{
-                onChange: ({ value }) =>
-                  !value.trim() ? 'Route name is required' : undefined,
-              }}
-            >
-              {(field) => (
-                <Field.Root
-                  name={field.name}
-                  invalid={!field.state.meta.isValid}
-                  dirty={field.state.meta.isDirty}
-                  touched={field.state.meta.isTouched}
-                  className="space-y-2"
+            {(field) => (
+              <Field.Root
+                name={field.name}
+                invalid={!field.state.meta.isValid}
+                dirty={field.state.meta.isDirty}
+                touched={field.state.meta.isTouched}
+                className="space-y-2"
+              >
+                <Field.Label className="text-xs font-bold uppercase text-stone-500 dark:text-stone-400 tracking-wide">
+                  Route Name
+                </Field.Label>
+                <Field.Control
+                  value={field.state.value}
+                  onValueChange={field.handleChange}
+                  onBlur={field.handleBlur}
+                  placeholder="e.g. Northside Wednesday"
+                  className="w-full rounded-xl border-2 border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-900 px-4 py-3 text-stone-800 dark:text-stone-100 shadow-sm focus:border-amber focus:outline-none focus:ring-4 focus:ring-amber/20 transition-all"
+                />
+                <Field.Error
+                  match={!field.state.meta.isValid}
+                  className="text-sm text-burgundy font-semibold"
                 >
-                  <Field.Label>Route Name</Field.Label>
-                  <Field.Control
-                    value={field.state.value}
-                    onValueChange={field.handleChange}
-                    onBlur={field.handleBlur}
-                    placeholder="e.g. Northside Wednesday route"
-                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-rose-500 focus:outline-none focus:ring-2 focus:ring-rose-200"
-                  />
-                  <Field.Error match={!field.state.meta.isValid}>
-                    {field.state.meta.errors.join(',')}
-                  </Field.Error>
-                </Field.Root>
-              )}
-            </form.Field>
+                  {field.state.meta.errors.join(',')}
+                </Field.Error>
+              </Field.Root>
+            )}
+          </form.Field>
 
-            <form.Field
-              name="description"
-              validators={{
-                onChange: ({ value }) =>
-                  !value.trim() ? 'Description is required' : undefined,
-              }}
-            >
-              {(field) => (
-                <Field.Root
-                  name={field.name}
-                  invalid={!field.state.meta.isValid}
-                  dirty={field.state.meta.isDirty}
-                  touched={field.state.meta.isTouched}
-                  className="space-y-2"
+          <form.Field
+            name="description"
+            validators={{
+              onChange: ({ value }) =>
+                !value.trim() ? 'Description is required' : undefined,
+            }}
+          >
+            {(field) => (
+              <Field.Root
+                name={field.name}
+                invalid={!field.state.meta.isValid}
+                dirty={field.state.meta.isDirty}
+                touched={field.state.meta.isTouched}
+                className="space-y-2"
+              >
+                <Field.Label className="text-xs font-bold uppercase text-stone-500 dark:text-stone-400 tracking-wide">
+                  Description
+                </Field.Label>
+                <Field.Control
+                  value={field.state.value}
+                  onValueChange={field.handleChange}
+                  onBlur={field.handleBlur}
+                  placeholder="List the stops, cadence, or goal for this route"
+                  className="w-full rounded-xl border-2 border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-900 px-4 py-3 text-stone-800 dark:text-stone-100 shadow-sm focus:border-amber focus:outline-none focus:ring-4 focus:ring-amber/20 transition-all"
+                />
+                <Field.Error
+                  match={!field.state.meta.isValid}
+                  className="text-sm text-burgundy font-semibold"
                 >
-                  <Field.Label>Description</Field.Label>
-                  <Field.Control
-                    value={field.state.value}
-                    onValueChange={field.handleChange}
-                    onBlur={field.handleBlur}
-                    placeholder="List the stops, cadence, or goal for this route"
-                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-rose-500 focus:outline-none focus:ring-2 focus:ring-rose-200"
-                  />
-                  <Field.Error match={!field.state.meta.isValid}>
-                    {field.state.meta.errors.join(',')}
-                  </Field.Error>
-                </Field.Root>
-              )}
-            </form.Field>
+                  {field.state.meta.errors.join(',')}
+                </Field.Error>
+              </Field.Root>
+            )}
+          </form.Field>
 
-            <form.Subscribe
-              selector={(state) =>
-                state.isSubmitting || state.canSubmit === false
-              }
-            >
-              {(isBusy) => (
-                <div className="flex items-center justify-end gap-3">
-                  <Button
-                    type="button"
-                    className="text-sm font-medium text-gray-600 hover:text-gray-800"
-                    onClick={() => form.reset()}
-                  >
-                    Reset
-                  </Button>
-                  <Button
-                    type="submit"
-                    disabled={isBusy}
-                    className="inline-flex items-center rounded-md bg-rose-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 disabled:cursor-not-allowed disabled:opacity-60"
-                  >
-                    Create route
-                  </Button>
-                </div>
-              )}
-            </form.Subscribe>
-          </Form>
-        </div>
+          <form.Subscribe
+            selector={(state) =>
+              state.isSubmitting || state.canSubmit === false
+            }
+          >
+            {(isBusy) => (
+              <div className="flex items-center justify-end gap-4 pt-4 border-t border-stone-200 dark:border-stone-700">
+                <Button
+                  type="button"
+                  className="px-6 py-3 rounded-xl bg-white dark:bg-stone-700 text-stone-800 dark:text-stone-100 font-bold uppercase tracking-wide border-2 border-stone-200 dark:border-stone-600 shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-sm transition-all"
+                  onClick={() => form.reset()}
+                >
+                  Reset
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={isBusy}
+                  className="px-6 py-3 rounded-xl bg-gradient-to-r from-burgundy to-malt text-white font-bold uppercase tracking-wide shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-sm transition-all disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  Create Route
+                </Button>
+              </div>
+            )}
+          </form.Subscribe>
+        </Form>
       </div>
     </div>
   )
