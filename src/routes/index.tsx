@@ -40,7 +40,7 @@ function Home() {
   return (
     <div className="min-h-screen bg-stone-50 dark:bg-[#1C1816]">
       {/* Hero */}
-      <section className="relative isolate overflow-hidden bg-gradient-to-b from-burgundy/10 to-stone-50 dark:from-burgundy/20 dark:to-[#1C1816]">
+      <section className="relative isolate overflow-hidden bg-linear-to-b from-burgundy/10 to-stone-50 dark:from-burgundy/20 dark:to-[#1C1816]">
         <div className="mx-auto max-w-7xl px-6 py-16 lg:flex lg:items-center lg:justify-between lg:py-24">
           <div className="max-w-2xl">
             <h1 className="text-4xl font-extrabold tracking-tight text-stone-800 dark:text-stone-100 sm:text-5xl">
@@ -55,7 +55,7 @@ function Home() {
             <div className="mt-8 flex items-center gap-3">
               <SignedOut>
                 <SignInButton>
-                  <button className="inline-flex items-center rounded-xl bg-gradient-to-r from-burgundy to-malt px-5 py-3 text-sm font-bold uppercase tracking-wide text-white shadow hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 transition-all">
+                  <button className="inline-flex items-center rounded-xl bg-linear-to-r from-burgundy to-malt px-5 py-3 text-sm font-bold uppercase tracking-wide text-white shadow hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 transition-all">
                     Sign in to get started
                   </button>
                 </SignInButton>
@@ -64,7 +64,7 @@ function Home() {
               <SignedIn>
                 <Link
                   to="/routes"
-                  className="inline-flex items-center rounded-xl bg-gradient-to-r from-burgundy to-malt px-5 py-3 text-sm font-bold uppercase tracking-wide text-white shadow hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 transition-all"
+                  className="inline-flex items-center rounded-xl bg-linear-to-r from-burgundy to-malt px-5 py-3 text-sm font-bold uppercase tracking-wide text-white shadow hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 transition-all"
                 >
                   Open App
                 </Link>
@@ -230,7 +230,7 @@ function Home() {
               <>
                 <SignedOut>
                   <SignInButton>
-                    <button className="inline-flex items-center rounded-xl bg-gradient-to-r from-burgundy to-malt px-5 py-3 text-sm font-bold uppercase tracking-wide text-white shadow hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 transition-all">
+                    <button className="inline-flex items-center rounded-xl bg-linear-to-r from-burgundy to-malt px-5 py-3 text-sm font-bold uppercase tracking-wide text-white shadow hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 transition-all">
                       Sign in to start planning
                     </button>
                   </SignInButton>
@@ -239,7 +239,7 @@ function Home() {
                   <div className="flex items-center gap-3">
                     <Link
                       to="/routes"
-                      className="inline-flex items-center rounded-xl bg-gradient-to-r from-burgundy to-malt px-5 py-3 text-sm font-bold uppercase tracking-wide text-white shadow hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 transition-all"
+                      className="inline-flex items-center rounded-xl bg-linear-to-r from-burgundy to-malt px-5 py-3 text-sm font-bold uppercase tracking-wide text-white shadow hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 transition-all"
                     >
                       Open App
                     </Link>
