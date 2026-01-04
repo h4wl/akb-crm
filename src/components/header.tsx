@@ -4,81 +4,78 @@ import {
   UserButton,
   SignedOut,
   SignInButton,
-  SignOutButton,
   useUser,
 } from '@clerk/tanstack-react-start'
+import { Link } from '@tanstack/react-router'
+import { useTheme } from './theme-provider'
 
 export default function Header() {
   const { isLoaded, user } = useUser()
+  const { theme, toggleTheme } = useTheme()
 
   return (
-    <header className="bg-white shadow">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
-          {/* Left: Brand */}
-          <div className="flex items-center">
-            <a href="/" className="flex items-center space-x-3">
-              <svg
-                className="h-8 w-8 text-rose-600"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path d="M12 2C9.243 2 7 4.243 7 7c0 1.657.672 3.157 1.757 4.243A6.002 6.002 0 0 0 6 19a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1 6.002 6.002 0 0 0-2.757-7.757C16.328 10.157 17 8.657 17 7c0-2.757-2.243-5-5-5z" />
-              </svg>
-              <span className="text-xl font-semibold text-gray-900">
-                Wine Route
-              </span>
-            </a>
-          </div>
+    <header className="bg-linear-to-r from-burgundy to-amber sticky top-0 z-50 shadow-md">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+        {/* Left: Brand */}
+        <Link
+          to="/"
+          className="flex items-center gap-3 text-white font-extrabold text-2xl md:text-3xl tracking-tight"
+        >
+          <span className="text-3xl md:text-4xl">😠</span>
+          <span>Crmudgeon</span>
+        </Link>
 
-          {/* Center: Simple nav */}
-          <nav className="hidden md:flex items-center space-x-6">
-            <a href="#features" className="text-sm text-gray-700 hover:text-gray-900">Features</a>
-            <a href="#how-it-works" className="text-sm text-gray-700 hover:text-gray-900">How it works</a>
-          </nav>
+        {/* Center: Nav (desktop) */}
+        <nav className="hidden md:flex items-center gap-4">
+          <Link
+            to="/"
+            className="text-white/90 font-semibold px-4 py-2 rounded-xl text-sm uppercase tracking-wide hover:bg-white/15 transition-colors"
+          >
+            My Day
+          </Link>
+          <Link
+            to="/routes"
+            className="text-white/90 font-semibold px-4 py-2 rounded-xl text-sm uppercase tracking-wide hover:bg-white/15 transition-colors"
+          >
+            Routes
+          </Link>
+        </nav>
 
-          {/* Right: Auth controls */}
-          <div className="flex items-center space-x-4">
-            {/* Show a skeleton while Clerk loads to avoid flicker */}
-            {!isLoaded ? (
-              <div className="h-8 w-32 bg-gray-100 rounded animate-pulse" />
-            ) : (
-              <>
-                <SignedIn>
-                  <div className="flex items-center space-x-3">
-                    <span className="text-sm text-gray-700 hidden sm:inline">
-                      {user?.firstName ? `Hi, ${user.firstName}` : 'Welcome'}
-                    </span>
+        {/* Right: Theme toggle + Auth controls */}
+        <div className="flex items-center gap-3">
+          <button
+            onClick={toggleTheme}
+            className="w-10 h-10 flex items-center justify-center text-xl bg-white/20 border-2 border-white/30 rounded-xl backdrop-blur-sm hover:bg-white/30 hover:scale-105 active:scale-95 transition-all"
+            title="Toggle dark mode"
+          >
+            {theme === 'dark' ? '☀️' : '🌙'}
+          </button>
 
-                    <UserButton afterSignOutUrl="/" />
-
-                    <SignOutButton>
-                      <button
-                        type="button"
-                        className="ml-2 inline-flex items-center px-3 py-1.5 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-rose-600 hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
-                      >
-                        Sign out
-                      </button>
-                    </SignOutButton>
+          {!isLoaded ? (
+            <div className="h-8 w-24 bg-white/20 rounded-xl animate-pulse" />
+          ) : (
+            <>
+              <SignedIn>
+                <div className="flex items-center gap-3">
+                  <div className="bg-white px-4 py-2 rounded-xl font-bold text-sm text-burgundy shadow-sm hidden sm:block">
+                    {user?.firstName || 'User'}
                   </div>
-                </SignedIn>
+                  <UserButton afterSignOutUrl="/" />
+                </div>
+              </SignedIn>
 
-                <SignedOut>
-                  <div className="flex items-center space-x-2">
-                    <SignInButton>
-                      <button
-                        type="button"
-                        className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm leading-4 font-medium rounded-md text-rose-700 bg-rose-100 hover:bg-rose-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
-                      >
-                        Sign in
-                      </button>
-                    </SignInButton>
-                  </div>
-                </SignedOut>
-              </>
-            )}
-          </div>
+              <SignedOut>
+                <SignInButton>
+                  <button
+                    type="button"
+                    className="bg-white px-4 py-2 rounded-xl font-bold text-sm text-burgundy shadow-sm hover:bg-white/90 transition-colors"
+                  >
+                    Sign in
+                  </button>
+                </SignInButton>
+              </SignedOut>
+            </>
+          )}
         </div>
       </div>
     </header>

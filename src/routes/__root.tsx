@@ -11,14 +11,20 @@ import {
 
 import appCss from '../styles/app.css?url'
 import Header from '../components/header'
+import { ThemeProvider } from '../components/theme-provider'
 
 export const Route = createRootRoute({
   head: () => ({
     meta: [
-      // your meta tags and site config
+      { charSet: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
+      { title: 'Crmudgeon - Route CRM' },
+      {
+        name: 'description',
+        content: 'A CRM for beverage sales route management',
+      },
     ],
     links: [{ rel: 'stylesheet', href: appCss }],
-    // other head config
   }),
   component: RootComponent,
 })
@@ -35,12 +41,12 @@ function RootComponent() {
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider>
-      <html>
+      <html lang="en">
         <head>
           <HeadContent />
         </head>
-        <body>
-          {children}
+        <body className="bg-stone-50 dark:bg-[#1C1816] text-stone-800 dark:text-stone-100 min-h-screen antialiased transition-colors">
+          <ThemeProvider>{children}</ThemeProvider>
           <TanStackRouterDevtools position="bottom-right" />
           <Scripts />
         </body>

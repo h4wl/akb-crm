@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crmudgeon - Edit Schedule</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        burgundy: {
+                            DEFAULT: '#A64253',
+                            light: '#C76570'
+                        },
+                        amber: {
+                            DEFAULT: '#C17F3C',
+                            light: '#D99F5C'
+                        },
+                        barley: '#E8C547',
+                        hops: {
+                            DEFAULT: '#5C8A6C',
+                            light: '#7AA88A'
+                        },
+                        grape: {
+                            DEFAULT: '#8B6F9E',
+                            light: '#A68DB5'
+                        },
+                        malt: {
+                            DEFAULT: '#D87E47',
+                            light: '#E89A68'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-stone-50 dark:bg-[#1C1816] text-stone-800 dark:text-stone-100 min-h-screen p-8">
+    <div class="max-w-4xl mx-auto">
+        <div class="mb-6 text-sm font-semibold text-stone-500 dark:text-stone-400">
+            <a href="#" class="text-burgundy font-bold hover:underline">Murphy's Tavern</a> / Edit Schedule
+        </div>
+
+        <h1 class="text-4xl font-extrabold tracking-tight mb-8 text-stone-800 dark:text-stone-100">Contact Schedule</h1>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- View Mode Card -->
+            <div id="viewMode" class="lg:col-span-1 bg-white dark:bg-stone-800 rounded-3xl p-7 shadow-md">
+                <div class="flex justify-between items-center mb-6 pb-4 border-b-2 border-stone-200 dark:border-stone-700">
+                    <h2 class="text-xl font-extrabold text-stone-800 dark:text-stone-100">Current Schedule</h2>
+                    <button onclick="showEditMode()" 
+                            class="px-4 py-2 rounded-xl bg-amber text-white font-bold text-sm hover:-translate-y-0.5 hover:shadow-sm active:translate-y-0 transition-all">
+                        Edit
+                    </button>
+                </div>
+
+                <div class="space-y-5">
+                    <div class="flex pb-5 border-b border-stone-200 dark:border-stone-700">
+                        <div class="min-w-[120px] text-xs font-bold uppercase text-stone-500 dark:text-stone-400 pt-1 tracking-wide">Type</div>
+                        <div class="flex-1 text-stone-800 dark:text-stone-100">Days of Week</div>
+                    </div>
+
+                    <div class="flex pb-5 border-b border-stone-200 dark:border-stone-700">
+                        <div class="min-w-[120px] text-xs font-bold uppercase text-stone-500 dark:text-stone-400 pt-1 tracking-wide">Frequency</div>
+                        <div class="flex-1 text-stone-800 dark:text-stone-100">Every Monday & Thursday</div>
+                    </div>
+
+                    <div class="flex pb-5 border-b border-stone-200 dark:border-stone-700">
+                        <div class="min-w-[120px] text-xs font-bold uppercase text-stone-500 dark:text-stone-400 pt-1 tracking-wide">Last Contact</div>
+                        <div class="flex-1 text-stone-800 dark:text-stone-100">Dec 18, 2024 (15 days ago)</div>
+                    </div>
+
+                    <div class="flex pb-5 border-b border-stone-200 dark:border-stone-700">
+                        <div class="min-w-[120px] text-xs font-bold uppercase text-stone-500 dark:text-stone-400 pt-1 tracking-wide">Next Contact</div>
+                        <div class="flex-1 text-burgundy font-bold">Today (Thu, Jan 2)</div>
+                    </div>
+
+                    <div class="flex">
+                        <div class="min-w-[120px] text-xs font-bold uppercase text-stone-500 dark:text-stone-400 pt-1 tracking-wide">Avg. Between</div>
+                        <div class="flex-1 text-stone-800 dark:text-stone-100">3.5 days</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit Mode Card -->
+            <div id="editMode" class="hidden lg:col-span-2 bg-white dark:bg-stone-800 rounded-3xl p-7 shadow-md">
+                <div class="flex justify-between items-center mb-6 pb-4 border-b-2 border-stone-200 dark:border-stone-700">
+                    <h2 class="text-xl font-extrabold text-stone-800 dark:text-stone-100">Edit Contact Schedule</h2>
+                    <button onclick="showViewMode()" 
+                            class="text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 font-semibold text-sm transition-colors">
+                        Cancel
+                    </button>
+                </div>
+
+                <div class="space-y-8">
+                    <!-- Schedule Type Selector -->
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-stone-500 dark:text-stone-400 mb-3 tracking-wide">
+                            Schedule Type
+                        </label>
+                        <div class="grid grid-cols-3 gap-3">
+                            <button onclick="setScheduleType('days')" 
+                                    class="schedule-type-btn schedule-type-active px-4 py-3 rounded-xl border-2 font-semibold text-sm uppercase tracking-wide transition-all">
+                                Days of Week
+                            </button>
+                            <button onclick="setScheduleType('interval')" 
+                                    class="schedule-type-btn px-4 py-3 rounded-xl bg-stone-100 dark:bg-stone-700 text-stone-800 dark:text-stone-100 border-2 border-stone-200 dark:border-stone-600 font-semibold text-sm uppercase tracking-wide hover:border-amber transition-all">
+                                Interval
+                            </button>
+                            <button onclick="setScheduleType('custom')" 
+                                    class="schedule-type-btn px-4 py-3 rounded-xl bg-stone-100 dark:bg-stone-700 text-stone-800 dark:text-stone-100 border-2 border-stone-200 dark:border-stone-600 font-semibold text-sm uppercase tracking-wide hover:border-amber transition-all">
+                                Custom
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Days of Week Picker -->
+                    <div id="daysOfWeekSection" class="schedule-section">
+                        <label class="block text-xs font-bold uppercase text-stone-500 dark:text-stone-400 mb-3 tracking-wide">
+                            Select Days
+                        </label>
+                        <div class="grid grid-cols-7 gap-2">
+                            <button onclick="toggleDay(this)" 
+                                    data-day="sun"
+                                    class="day-btn aspect-square rounded-xl bg-stone-100 dark:bg-stone-700 border-2 border-stone-200 dark:border-stone-600 font-bold text-sm hover:border-amber transition-all flex flex-col items-center justify-center">
+                                <div class="text-lg mb-1">S</div>
+                                <div class="text-xs text-stone-500 dark:text-stone-400">Sun</div>
+                            </button>
+                            <button onclick="toggleDay(this)" 
+                                    data-day="mon"
+                                    class="day-btn day-active aspect-square rounded-xl font-bold text-sm transition-all flex flex-col items-center justify-center">
+                                <div class="text-lg mb-1">M</div>
+                                <div class="text-xs">Mon</div>
+                            </button>
+                            <button onclick="toggleDay(this)" 
+                                    data-day="tue"
+                                    class="day-btn aspect-square rounded-xl bg-stone-100 dark:bg-stone-700 border-2 border-stone-200 dark:border-stone-600 font-bold text-sm hover:border-amber transition-all flex flex-col items-center justify-center">
+                                <div class="text-lg mb-1">T</div>
+                                <div class="text-xs text-stone-500 dark:text-stone-400">Tue</div>
+                            </button>
+                            <button onclick="toggleDay(this)" 
+                                    data-day="wed"
+                                    class="day-btn aspect-square rounded-xl bg-stone-100 dark:bg-stone-700 border-2 border-stone-200 dark:border-stone-600 font-bold text-sm hover:border-amber transition-all flex flex-col items-center justify-center">
+                                <div class="text-lg mb-1">W</div>
+                                <div class="text-xs text-stone-500 dark:text-stone-400">Wed</div>
+                            </button>
+                            <button onclick="toggleDay(this)" 
+                                    data-day="thu"
+                                    class="day-btn day-active aspect-square rounded-xl font-bold text-sm transition-all flex flex-col items-center justify-center">
+                                <div class="text-lg mb-1">T</div>
+                                <div class="text-xs">Thu</div>
+                            </button>
+                            <button onclick="toggleDay(this)" 
+                                    data-day="fri"
+                                    class="day-btn aspect-square rounded-xl bg-stone-100 dark:bg-stone-700 border-2 border-stone-200 dark:border-stone-600 font-bold text-sm hover:border-amber transition-all flex flex-col items-center justify-center">
+                                <div class="text-lg mb-1">F</div>
+                                <div class="text-xs text-stone-500 dark:text-stone-400">Fri</div>
+                            </button>
+                            <button onclick="toggleDay(this)" 
+                                    data-day="sat"
+                                    class="day-btn aspect-square rounded-xl bg-stone-100 dark:bg-stone-700 border-2 border-stone-200 dark:border-stone-600 font-bold text-sm hover:border-amber transition-all flex flex-col items-center justify-center">
+                                <div class="text-lg mb-1">S</div>
+                                <div class="text-xs text-stone-500 dark:text-stone-400">Sat</div>
+                            </button>
+                        </div>
+                        <p class="mt-3 text-sm text-stone-500 dark:text-stone-400">
+                            Currently selected: <span class="font-bold text-burgundy">Monday, Thursday</span>
+                        </p>
+                    </div>
+
+                    <!-- Interval Picker -->
+                    <div id="intervalSection" class="schedule-section hidden">
+                        <label class="block text-xs font-bold uppercase text-stone-500 dark:text-stone-400 mb-3 tracking-wide">
+                            Contact Every
+                        </label>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <input 
+                                    type="number" 
+                                    value="7" 
+                                    min="1" 
+                                    max="365"
+                                    class="w-full px-4 py-3 border-2 border-stone-200 dark:border-stone-600 rounded-xl bg-white dark:bg-stone-900 text-stone-800 dark:text-stone-100 font-semibold text-lg focus:outline-none focus:border-amber focus:ring-4 focus:ring-amber/20 transition-all">
+                            </div>
+                            <div>
+                                <select class="w-full px-4 py-3 border-2 border-stone-200 dark:border-stone-600 rounded-xl bg-white dark:bg-stone-900 text-stone-800 dark:text-stone-100 font-semibold cursor-pointer focus:outline-none focus:border-amber focus:ring-4 focus:ring-amber/20 transition-all">
+                                    <option>Days</option>
+                                    <option>Weeks</option>
+                                    <option>Months</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mt-4 bg-stone-50 dark:bg-stone-900 rounded-xl p-4">
+                            <div class="flex items-center gap-2 mb-2">
+                                <input type="checkbox" id="resetOnContact" class="w-4 h-4 rounded border-stone-300 text-amber focus:ring-amber">
+                                <label for="resetOnContact" class="text-sm font-semibold text-stone-700 dark:text-stone-300">
+                                    Reset interval from last contact date
+                                </label>
+                            </div>
+                            <p class="text-xs text-stone-500 dark:text-stone-400 ml-6">
+                                When checked, the next contact date will be calculated from the last contact. Otherwise, it stays on a fixed schedule.
+                            </p>
+                        </div>
+                        <p class="mt-3 text-sm text-stone-500 dark:text-stone-400">
+                            Next contact: <span class="font-bold text-burgundy">January 9, 2026</span>
+                        </p>
+                    </div>
+
+                    <!-- Custom Date Picker -->
+                    <div id="customSection" class="schedule-section hidden">
+                        <label class="block text-xs font-bold uppercase text-stone-500 dark:text-stone-400 mb-3 tracking-wide">
+                            Specific Date
+                        </label>
+                        <input 
+                            type="date" 
+                            class="w-full px-4 py-3 border-2 border-stone-200 dark:border-stone-600 rounded-xl bg-white dark:bg-stone-900 text-stone-800 dark:text-stone-100 font-semibold focus:outline-none focus:border-amber focus:ring-4 focus:ring-amber/20 transition-all">
+                        <p class="mt-3 text-sm text-stone-500 dark:text-stone-400">
+                            Use this for one-time events or irregular schedules. After this date, the account will need a new schedule.
+                        </p>
+                    </div>
+
+                    <!-- Snooze Options -->
+                    <div class="pt-6 border-t-2 border-stone-200 dark:border-stone-700">
+                        <label class="block text-xs font-bold uppercase text-stone-500 dark:text-stone-400 mb-3 tracking-wide">
+                            Quick Snooze
+                        </label>
+                        <div class="grid grid-cols-4 gap-2">
+                            <button onclick="alert('Snoozed for 1 week')" 
+                                    class="px-3 py-2 rounded-lg bg-stone-100 dark:bg-stone-700 text-stone-800 dark:text-stone-100 border-2 border-stone-200 dark:border-stone-600 font-semibold text-sm hover:border-grape hover:bg-grape/10 transition-all">
+                                1 Week
+                            </button>
+                            <button onclick="alert('Snoozed for 2 weeks')" 
+                                    class="px-3 py-2 rounded-lg bg-stone-100 dark:bg-stone-700 text-stone-800 dark:text-stone-100 border-2 border-stone-200 dark:border-stone-600 font-semibold text-sm hover:border-grape hover:bg-grape/10 transition-all">
+                                2 Weeks
+                            </button>
+                            <button onclick="alert('Snoozed for 1 month')" 
+                                    class="px-3 py-2 rounded-lg bg-stone-100 dark:bg-stone-700 text-stone-800 dark:text-stone-100 border-2 border-stone-200 dark:border-stone-600 font-semibold text-sm hover:border-grape hover:bg-grape/10 transition-all">
+                                1 Month
+                            </button>
+                            <button onclick="alert('Snoozed for 3 months')" 
+                                    class="px-3 py-2 rounded-lg bg-stone-100 dark:bg-stone-700 text-stone-800 dark:text-stone-100 border-2 border-stone-200 dark:border-stone-600 font-semibold text-sm hover:border-grape hover:bg-grape/10 transition-all">
+                                3 Months
+                            </button>
+                        </div>
+                        <p class="mt-3 text-sm text-stone-500 dark:text-stone-400">
+                            Temporarily pause scheduled contacts. The account will reappear on the selected date.
+                        </p>
+                    </div>
+
+                    <!-- Save/Cancel Buttons -->
+                    <div class="flex gap-4 pt-6">
+                        <button onclick="showViewMode()" 
+                                class="flex-1 py-4 rounded-xl bg-stone-100 dark:bg-stone-700 text-stone-800 dark:text-stone-100 font-bold uppercase tracking-wide border-2 border-stone-200 dark:border-stone-600 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-sm transition-all">
+                            Cancel
+                        </button>
+                        <button onclick="saveSchedule()" 
+                                class="flex-1 py-4 rounded-xl bg-gradient-to-r from-burgundy to-malt text-white font-bold uppercase tracking-wide shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-sm transition-all">
+                            Save Schedule
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Examples Section -->
+        <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white dark:bg-stone-800 rounded-2xl p-6 shadow-md">
+                <div class="text-sm font-bold text-burgundy mb-2">Example: Days of Week</div>
+                <div class="text-xs text-stone-500 dark:text-stone-400 mb-3">Best for regular weekly schedules</div>
+                <div class="flex gap-1">
+                    <div class="w-8 h-8 rounded-lg bg-stone-100 dark:bg-stone-700 flex items-center justify-center text-xs font-bold text-stone-400">S</div>
+                    <div class="w-8 h-8 rounded-lg bg-amber text-white flex items-center justify-center text-xs font-bold">M</div>
+                    <div class="w-8 h-8 rounded-lg bg-stone-100 dark:bg-stone-700 flex items-center justify-center text-xs font-bold text-stone-400">T</div>
+                    <div class="w-8 h-8 rounded-lg bg-amber text-white flex items-center justify-center text-xs font-bold">W</div>
+                    <div class="w-8 h-8 rounded-lg bg-stone-100 dark:bg-stone-700 flex items-center justify-center text-xs font-bold text-stone-400">T</div>
+                    <div class="w-8 h-8 rounded-lg bg-amber text-white flex items-center justify-center text-xs font-bold">F</div>
+                    <div class="w-8 h-8 rounded-lg bg-stone-100 dark:bg-stone-700 flex items-center justify-center text-xs font-bold text-stone-400">S</div>
+                </div>
+                <div class="mt-3 text-xs font-semibold text-stone-700 dark:text-stone-300">Mon, Wed, Fri</div>
+            </div>
+
+            <div class="bg-white dark:bg-stone-800 rounded-2xl p-6 shadow-md">
+                <div class="text-sm font-bold text-burgundy mb-2">Example: Interval</div>
+                <div class="text-xs text-stone-500 dark:text-stone-400 mb-3">For flexible, recurring visits</div>
+                <div class="flex items-center gap-3">
+                    <div class="text-3xl font-extrabold text-amber">10</div>
+                    <div class="text-sm font-bold text-stone-700 dark:text-stone-300">Days</div>
+                </div>
+                <div class="mt-3 text-xs font-semibold text-stone-700 dark:text-stone-300">Every 10 days from last contact</div>
+            </div>
+
+            <div class="bg-white dark:bg-stone-800 rounded-2xl p-6 shadow-md">
+                <div class="text-sm font-bold text-burgundy mb-2">Example: Snoozed</div>
+                <div class="text-xs text-stone-500 dark:text-stone-400 mb-3">Temporarily pause contacts</div>
+                <div class="flex items-center gap-2">
+                    <div class="text-2xl">😴</div>
+                    <div>
+                        <div class="text-sm font-bold text-grape">Until Feb 15</div>
+                        <div class="text-xs text-stone-500 dark:text-stone-400">On vacation</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme toggle (minimal for this prototype)
+        (function() {
+            const savedTheme = localStorage.getItem('crmudgeon-theme') || 'light';
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+
+        function showEditMode() {
+            document.getElementById('viewMode').classList.add('hidden');
+            document.getElementById('editMode').classList.remove('hidden');
+            document.getElementById('editMode').classList.add('lg:col-span-2');
+        }
+
+        function showViewMode() {
+            document.getElementById('editMode').classList.add('hidden');
+            document.getElementById('viewMode').classList.remove('hidden');
+        }
+
+        function setScheduleType(type) {
+            // Update button states
+            document.querySelectorAll('.schedule-type-btn').forEach(btn => {
+                btn.classList.remove('schedule-type-active', 'bg-amber', 'text-white', 'border-amber');
+                btn.classList.add('bg-stone-100', 'dark:bg-stone-700', 'text-stone-800', 'dark:text-stone-100', 'border-stone-200', 'dark:border-stone-600');
+            });
+            event.target.classList.remove('bg-stone-100', 'dark:bg-stone-700', 'text-stone-800', 'dark:text-stone-100', 'border-stone-200', 'dark:border-stone-600');
+            event.target.classList.add('schedule-type-active', 'bg-amber', 'text-white', 'border-amber');
+
+            // Show/hide sections
+            document.querySelectorAll('.schedule-section').forEach(section => {
+                section.classList.add('hidden');
+            });
+
+            if (type === 'days') {
+                document.getElementById('daysOfWeekSection').classList.remove('hidden');
+            } else if (type === 'interval') {
+                document.getElementById('intervalSection').classList.remove('hidden');
+            } else if (type === 'custom') {
+                document.getElementById('customSection').classList.remove('hidden');
+            }
+        }
+
+        function toggleDay(btn) {
+            if (btn.classList.contains('day-active')) {
+                btn.classList.remove('day-active', 'bg-amber', 'text-white', 'border-amber');
+                btn.classList.add('bg-stone-100', 'dark:bg-stone-700', 'border-stone-200', 'dark:border-stone-600');
+                btn.querySelectorAll('.text-xs')[0].classList.add('text-stone-500', 'dark:text-stone-400');
+            } else {
+                btn.classList.add('day-active', 'bg-amber', 'text-white', 'border-amber');
+                btn.classList.remove('bg-stone-100', 'dark:bg-stone-700', 'border-stone-200', 'dark:border-stone-600');
+                btn.querySelectorAll('.text-xs')[0].classList.remove('text-stone-500', 'dark:text-stone-400');
+            }
+        }
+
+        function saveSchedule() {
+            alert('Schedule saved! The account will now be contacted according to the new schedule.');
+            showViewMode();
+        }
+
+        // Initialize schedule type button styling
+        document.addEventListener('DOMContentLoaded', function() {
+            const activeBtn = document.querySelector('.schedule-type-active');
+            if (activeBtn) {
+                activeBtn.classList.add('bg-amber', 'text-white', 'border-amber');
+            }
+
+            // Initialize active day button styling
+            document.querySelectorAll('.day-active').forEach(btn => {
+                btn.classList.add('bg-amber', 'text-white', 'border-amber');
+            });
+        });
+    </script>
+</body>
+</html>
