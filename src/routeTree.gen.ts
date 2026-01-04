@@ -16,6 +16,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as RoutesIndexRouteImport } from './routes/routes/index'
 import { Route as RoutesNewRouteImport } from './routes/routes/new'
 import { Route as RoutesRouteIdRouteImport } from './routes/routes/$routeId'
+import { Route as RoutesRouteIdIndexRouteImport } from './routes/routes/$routeId.index'
 import { Route as RoutesRouteIdEditRouteImport } from './routes/routes/$routeId.edit'
 
 const InitRoute = InitRouteImport.update({
@@ -53,6 +54,11 @@ const RoutesRouteIdRoute = RoutesRouteIdRouteImport.update({
   path: '/routes/$routeId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RoutesRouteIdIndexRoute = RoutesRouteIdIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => RoutesRouteIdRoute,
+} as any)
 const RoutesRouteIdEditRoute = RoutesRouteIdEditRouteImport.update({
   id: '/edit',
   path: '/edit',
@@ -68,16 +74,17 @@ export interface FileRoutesByFullPath {
   '/routes/new': typeof RoutesNewRoute
   '/routes': typeof RoutesIndexRoute
   '/routes/$routeId/edit': typeof RoutesRouteIdEditRoute
+  '/routes/$routeId/': typeof RoutesRouteIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/error': typeof ErrorRoute
   '/init': typeof InitRoute
-  '/routes/$routeId': typeof RoutesRouteIdRouteWithChildren
   '/routes/new': typeof RoutesNewRoute
   '/routes': typeof RoutesIndexRoute
   '/routes/$routeId/edit': typeof RoutesRouteIdEditRoute
+  '/routes/$routeId': typeof RoutesRouteIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -89,6 +96,7 @@ export interface FileRoutesById {
   '/routes/new': typeof RoutesNewRoute
   '/routes/': typeof RoutesIndexRoute
   '/routes/$routeId/edit': typeof RoutesRouteIdEditRoute
+  '/routes/$routeId/': typeof RoutesRouteIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -101,16 +109,17 @@ export interface FileRouteTypes {
     | '/routes/new'
     | '/routes'
     | '/routes/$routeId/edit'
+    | '/routes/$routeId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/dashboard'
     | '/error'
     | '/init'
-    | '/routes/$routeId'
     | '/routes/new'
     | '/routes'
     | '/routes/$routeId/edit'
+    | '/routes/$routeId'
   id:
     | '__root__'
     | '/'
@@ -121,6 +130,7 @@ export interface FileRouteTypes {
     | '/routes/new'
     | '/routes/'
     | '/routes/$routeId/edit'
+    | '/routes/$routeId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -184,6 +194,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RoutesRouteIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/routes/$routeId/': {
+      id: '/routes/$routeId/'
+      path: '/'
+      fullPath: '/routes/$routeId/'
+      preLoaderRoute: typeof RoutesRouteIdIndexRouteImport
+      parentRoute: typeof RoutesRouteIdRoute
+    }
     '/routes/$routeId/edit': {
       id: '/routes/$routeId/edit'
       path: '/edit'
@@ -196,10 +213,12 @@ declare module '@tanstack/react-router' {
 
 interface RoutesRouteIdRouteChildren {
   RoutesRouteIdEditRoute: typeof RoutesRouteIdEditRoute
+  RoutesRouteIdIndexRoute: typeof RoutesRouteIdIndexRoute
 }
 
 const RoutesRouteIdRouteChildren: RoutesRouteIdRouteChildren = {
   RoutesRouteIdEditRoute: RoutesRouteIdEditRoute,
+  RoutesRouteIdIndexRoute: RoutesRouteIdIndexRoute,
 }
 
 const RoutesRouteIdRouteWithChildren = RoutesRouteIdRoute._addFileChildren(
