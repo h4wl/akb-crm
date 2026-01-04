@@ -16,6 +16,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as RoutesIndexRouteImport } from './routes/routes/index'
 import { Route as RoutesNewRouteImport } from './routes/routes/new'
 import { Route as RoutesRouteIdRouteImport } from './routes/routes/$routeId'
+import { Route as RoutesRouteIdEditRouteImport } from './routes/routes/$routeId.edit'
 
 const InitRoute = InitRouteImport.update({
   id: '/init',
@@ -52,24 +53,31 @@ const RoutesRouteIdRoute = RoutesRouteIdRouteImport.update({
   path: '/routes/$routeId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RoutesRouteIdEditRoute = RoutesRouteIdEditRouteImport.update({
+  id: '/edit',
+  path: '/edit',
+  getParentRoute: () => RoutesRouteIdRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/error': typeof ErrorRoute
   '/init': typeof InitRoute
-  '/routes/$routeId': typeof RoutesRouteIdRoute
+  '/routes/$routeId': typeof RoutesRouteIdRouteWithChildren
   '/routes/new': typeof RoutesNewRoute
   '/routes': typeof RoutesIndexRoute
+  '/routes/$routeId/edit': typeof RoutesRouteIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/error': typeof ErrorRoute
   '/init': typeof InitRoute
-  '/routes/$routeId': typeof RoutesRouteIdRoute
+  '/routes/$routeId': typeof RoutesRouteIdRouteWithChildren
   '/routes/new': typeof RoutesNewRoute
   '/routes': typeof RoutesIndexRoute
+  '/routes/$routeId/edit': typeof RoutesRouteIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -77,9 +85,10 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRoute
   '/error': typeof ErrorRoute
   '/init': typeof InitRoute
-  '/routes/$routeId': typeof RoutesRouteIdRoute
+  '/routes/$routeId': typeof RoutesRouteIdRouteWithChildren
   '/routes/new': typeof RoutesNewRoute
   '/routes/': typeof RoutesIndexRoute
+  '/routes/$routeId/edit': typeof RoutesRouteIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -91,6 +100,7 @@ export interface FileRouteTypes {
     | '/routes/$routeId'
     | '/routes/new'
     | '/routes'
+    | '/routes/$routeId/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -100,6 +110,7 @@ export interface FileRouteTypes {
     | '/routes/$routeId'
     | '/routes/new'
     | '/routes'
+    | '/routes/$routeId/edit'
   id:
     | '__root__'
     | '/'
@@ -109,6 +120,7 @@ export interface FileRouteTypes {
     | '/routes/$routeId'
     | '/routes/new'
     | '/routes/'
+    | '/routes/$routeId/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -116,7 +128,7 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRoute
   ErrorRoute: typeof ErrorRoute
   InitRoute: typeof InitRoute
-  RoutesRouteIdRoute: typeof RoutesRouteIdRoute
+  RoutesRouteIdRoute: typeof RoutesRouteIdRouteWithChildren
   RoutesNewRoute: typeof RoutesNewRoute
   RoutesIndexRoute: typeof RoutesIndexRoute
 }
@@ -172,15 +184,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RoutesRouteIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/routes/$routeId/edit': {
+      id: '/routes/$routeId/edit'
+      path: '/edit'
+      fullPath: '/routes/$routeId/edit'
+      preLoaderRoute: typeof RoutesRouteIdEditRouteImport
+      parentRoute: typeof RoutesRouteIdRoute
+    }
   }
 }
+
+interface RoutesRouteIdRouteChildren {
+  RoutesRouteIdEditRoute: typeof RoutesRouteIdEditRoute
+}
+
+const RoutesRouteIdRouteChildren: RoutesRouteIdRouteChildren = {
+  RoutesRouteIdEditRoute: RoutesRouteIdEditRoute,
+}
+
+const RoutesRouteIdRouteWithChildren = RoutesRouteIdRoute._addFileChildren(
+  RoutesRouteIdRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRoute,
   ErrorRoute: ErrorRoute,
   InitRoute: InitRoute,
-  RoutesRouteIdRoute: RoutesRouteIdRoute,
+  RoutesRouteIdRoute: RoutesRouteIdRouteWithChildren,
   RoutesNewRoute: RoutesNewRoute,
   RoutesIndexRoute: RoutesIndexRoute,
 }

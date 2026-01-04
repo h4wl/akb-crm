@@ -118,3 +118,89 @@ export const getServerRoutes = createServerFn({ method: 'GET' }).handler(
     return routes
   },
 )
+
+export const updateServerRoute = createServerFn({ method: 'POST' })
+  .inputValidator(
+    z.object({
+      id: z.string().min(5),
+      routeName: z.string().min(1),
+      description: z.string().min(1),
+    }),
+  )
+  .handler(async ({ data }) => {
+    const { isAuthenticated } = await auth()
+
+    if (!isAuthenticated) {
+      throw new Error('User not authenticated')
+    }
+
+    const user = await getAuthenticatedUser()
+
+    // First verify the route exists and belongs to the user
+    const route = await db
+      .select()
+      .from(routesTable)
+      .where(eq(routesTable.id, data.id))
+      .limit(1)
+      .then((rows) => rows[0])
+
+    if (!route) {
+      throw new Error('Route not found')
+    }
+
+    if (route.userId !== user.id) {
+      throw new Error('Not authorized to update this route')
+    }
+
+    // Update the route
+    await db
+      .update(routesTable)
+      .set({
+        routeName: data.routeName,
+        description: data.description,
+        updatedAt: new Date(),
+      })
+      .where(eq(routesTable.id, data.id))
+
+    throw redirect({
+      to: '/routes/$routeId',
+      params: { routeId: data.id },
+    })
+  })
+
+export const deleteServerRoute = createServerFn({ method: 'POST' })
+  .inputValidator(
+    z.object({
+      id: z.string().min(5),
+    }),
+  )
+  .handler(async ({ data }) => {
+    const { isAuthenticated } = await auth()
+
+    if (!isAuthenticated) {
+      throw new Error('User not authenticated')
+    }
+
+    const user = await getAuthenticatedUser()
+
+    // First verify the route exists and belongs to the user
+    const route = await db
+      .select()
+      .from(routesTable)
+      .where(eq(routesTable.id, data.id))
+      .limit(1)
+      .then((rows) => rows[0])
+
+    if (!route) {
+      throw new Error('Route not found')
+    }
+
+    if (route.userId !== user.id) {
+      throw new Error('Not authorized to delete this route')
+    }
+
+    // Delete the route
+    await db.delete(routesTable).where(eq(routesTable.id, data.id))
+
+    return { success: true }
+  })
