@@ -6,9 +6,15 @@ import { useState } from 'react'
 import { Form } from '@base-ui/react/form'
 import { Field } from '@base-ui/react/field'
 import { Button } from '@base-ui/react/button'
+import { z } from 'zod'
 
 export const Route = createFileRoute('/routes/new')({
   component: RouteComponent,
+})
+
+const routeFormSchema = z.object({
+  routeName: z.string().min(1, 'Route name is required').trim(),
+  description: z.string().min(1, 'Description is required').trim(),
 })
 
 function RouteComponent() {
@@ -85,8 +91,12 @@ function RouteComponent() {
           <form.Field
             name="routeName"
             validators={{
-              onChange: ({ value }) =>
-                !value.trim() ? 'Route name is required' : undefined,
+              onChange: ({ value }) => {
+                const result = routeFormSchema.shape.routeName.safeParse(value)
+                return result.success
+                  ? undefined
+                  : result.error.issues[0]?.message
+              },
             }}
           >
             {(field) => (
@@ -120,8 +130,13 @@ function RouteComponent() {
           <form.Field
             name="description"
             validators={{
-              onChange: ({ value }) =>
-                !value.trim() ? 'Description is required' : undefined,
+              onChange: ({ value }) => {
+                const result =
+                  routeFormSchema.shape.description.safeParse(value)
+                return result.success
+                  ? undefined
+                  : result.error.issues[0]?.message
+              },
             }}
           >
             {(field) => (

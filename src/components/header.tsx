@@ -10,7 +10,7 @@ import { Link } from '@tanstack/react-router'
 import { useTheme } from './theme-provider'
 
 export default function Header() {
-  const { isLoaded, user } = useUser()
+  const { isLoaded } = useUser()
   const { theme, toggleTheme } = useTheme()
 
   return (
@@ -57,9 +57,6 @@ export default function Header() {
             <>
               <SignedIn>
                 <div className="flex items-center gap-3">
-                  <div className="bg-white px-4 py-2 rounded-xl font-bold text-sm text-burgundy shadow-sm hidden sm:block">
-                    {user?.firstName || 'User'}
-                  </div>
                   <UserButton afterSignOutUrl="/" />
                 </div>
               </SignedIn>
