@@ -37,7 +37,7 @@ export default function Header() {
             to="/routes"
             className="text-white/90 font-semibold px-4 py-2 rounded-xl text-sm uppercase tracking-wide hover:bg-white/15 transition-colors"
           >
-            Accounts
+            Routes
           </Link>
         </nav>
 
