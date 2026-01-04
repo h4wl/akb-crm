@@ -4,8 +4,8 @@ import { getServerRoute, updateServerRoute } from '~/server/routes'
 import { useServerFn } from '@tanstack/react-start'
 import { useState } from 'react'
 import { Form } from '@base-ui/react/form'
-import { Field } from '@base-ui/react/field'
 import { Button } from '@base-ui/react/button'
+import { FormField } from '~/components/FormField'
 
 export const Route = createFileRoute('/routes/$routeId/edit')({
   component: RouteComponent,
@@ -104,30 +104,11 @@ function RouteComponent() {
             }}
           >
             {(field) => (
-              <Field.Root
-                name={field.name}
-                invalid={!field.state.meta.isValid}
-                dirty={field.state.meta.isDirty}
-                touched={field.state.meta.isTouched}
-                className="space-y-2"
-              >
-                <Field.Label className="text-xs font-bold uppercase text-stone-500 dark:text-stone-400 tracking-wide">
-                  Route Name
-                </Field.Label>
-                <Field.Control
-                  value={field.state.value}
-                  onValueChange={field.handleChange}
-                  onBlur={field.handleBlur}
-                  placeholder="e.g. Northside Wednesday"
-                  className="w-full rounded-xl border-2 border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-900 px-4 py-3 text-stone-800 dark:text-stone-100 shadow-sm focus:border-amber focus:outline-none focus:ring-4 focus:ring-amber/20 transition-all"
-                />
-                <Field.Error
-                  match={!field.state.meta.isValid}
-                  className="text-sm text-burgundy font-semibold"
-                >
-                  {field.state.meta.errors.join(',')}
-                </Field.Error>
-              </Field.Root>
+              <FormField
+                field={field}
+                label="Route Name"
+                placeholder="e.g. Northside Wednesday"
+              />
             )}
           </form.Field>
 
@@ -139,30 +120,11 @@ function RouteComponent() {
             }}
           >
             {(field) => (
-              <Field.Root
-                name={field.name}
-                invalid={!field.state.meta.isValid}
-                dirty={field.state.meta.isDirty}
-                touched={field.state.meta.isTouched}
-                className="space-y-2"
-              >
-                <Field.Label className="text-xs font-bold uppercase text-stone-500 dark:text-stone-400 tracking-wide">
-                  Description
-                </Field.Label>
-                <Field.Control
-                  value={field.state.value}
-                  onValueChange={field.handleChange}
-                  onBlur={field.handleBlur}
-                  placeholder="List the stops, cadence, or goal for this route"
-                  className="w-full rounded-xl border-2 border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-900 px-4 py-3 text-stone-800 dark:text-stone-100 shadow-sm focus:border-amber focus:outline-none focus:ring-4 focus:ring-amber/20 transition-all"
-                />
-                <Field.Error
-                  match={!field.state.meta.isValid}
-                  className="text-sm text-burgundy font-semibold"
-                >
-                  {field.state.meta.errors.join(',')}
-                </Field.Error>
-              </Field.Root>
+              <FormField
+                field={field}
+                label="Description"
+                placeholder="List the stops, cadence, or goal for this route"
+              />
             )}
           </form.Field>
 
